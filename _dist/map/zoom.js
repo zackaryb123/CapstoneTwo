@@ -1,8 +1,3 @@
-/* let map = new Datamap({
-    scope: 'world',
-    element: document.getElementById('world-map')
-}); */
-
 function Zoom(args) {
     $.extend(this, {
       $buttons:   $(".zoom-button"),
@@ -85,7 +80,7 @@ function Zoom(args) {
         view.k = this._getNextScale(direction);
     }
   
-  l = [ translate0[0] * view.k + view.x, translate0[1] * view.k + view.y ];
+    l = [ translate0[0] * view.k + view.x, translate0[1] * view.k + view.y ];
   
     view.x += center[0] - l[0];
     view.y += center[1] - l[1];
@@ -152,87 +147,44 @@ function Zoom(args) {
     return array;
   };
   
-  Zoom.prototype._getNextScale = function(direction) {
-    var scaleSet = this.scale.set,
-        currentScale = this.d3Zoom.scale(),
-        lastShift = scaleSet.length - 1,
-        shift, temp = [];
-  
-    if (this.scrolled) {
-  
-      for (shift = 0; shift <= lastShift; shift++) {
-        temp.push(Math.abs(scaleSet[shift] - currentScale));
-      }
-  
-      shift = temp.indexOf(Math.min.apply(null, temp));
-  
-      if (currentScale >= scaleSet[shift] && shift < lastShift) {
-        shift++;
-      }
-  
-      if (direction == "out" && shift > 0) {
-        shift--;
-      }
-  
-      this.scrolled = false;
-  
-    } else {
-  
-      shift = this.scale.currentShift;
-  
-      if (direction == "out") {
-        shift > 0 && shift--;
-      } else {
-        shift < lastShift && shift++;
-      }
+Zoom.prototype._getNextScale = function(direction) {
+var scaleSet = this.scale.set,
+    currentScale = this.d3Zoom.scale(),
+    lastShift = scaleSet.length - 1,
+    shift, temp = [];
+
+if (this.scrolled) {
+
+    for (shift = 0; shift <= lastShift; shift++) {
+    temp.push(Math.abs(scaleSet[shift] - currentScale));
     }
-  
-    this.scale.currentShift = shift;
-  
-    return scaleSet[shift];
-  };
-  
-  function Datamap() {
-      this.$container = $("#world-map");
-      this.instance = new Datamaps({
-      scope: 'world',
-      element: this.$container.get(0),
-      projection: 'mercator',
-      done: this._handleMapReady.bind(this),
-      geographyConfig: {
-        popupOnHover: false,
-        highlightOnHover: false
-        },
-      });
 
-/*         let picture = [{
-            title: 'title',
-            location: 'location',
-            caption: 'caption',
-            radius: 25,
-            fillKey: 'fill',
-            date: 'date',
-            latitude: 50,
-            longitude: 40
-        }];
+    shift = temp.indexOf(Math.min.apply(null, temp));
 
-       this.bubbles(picture, {
-        popupTemplate: function (geo, data) {
-                return ['<div class="hoverinfo">' +  data.title,
-                '<br/>Payload: ' +  data.location + '',
-                '<br/>Country: ' +  data.caption + '',
-                '<br/>Date: ' +  data.date + '',
-                '</div>'].join('');
-        }
-    }); */
-  }
+    if (currentScale >= scaleSet[shift] && shift < lastShift) {
+    shift++;
+    }
+
+    if (direction == "out" && shift > 0) {
+    shift--;
+    }
+
+    this.scrolled = false;
+
+} else {
+
+    shift = this.scale.currentShift;
+
+    if (direction == "out") {
+    shift > 0 && shift--;
+    } else {
+    shift < lastShift && shift++;
+    }
+}
+
+this.scale.currentShift = shift;
+
+return scaleSet[shift];
+};
   
-  
-  Datamap.prototype._handleMapReady = function(datamap) {
-      this.zoom = new Zoom({
-        $container: this.$container,
-        datamap: datamap
-    });
-  }
-  
-  new Datamap();
+export {Zoom};
