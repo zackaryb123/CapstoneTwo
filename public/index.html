@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>iTrackU</title>
+    <link rel="stylesheet" href="stylesheets/bootstrap.css"/>
+    <link rel="stylesheet" href="stylesheets/main.css"/>
+    <link rel="stylesheet" href="stylesheets/login-join.css"/>
+    <link rel="stylesheet" href="stylesheets/profile.css"/>
+</head>
+<body>
+    <nav class="navbar fixed-top navbar-expand-lg navbar-dark bg-dark">
+        <a class="navbar-brand" href="#">iTrackU</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo02" aria-controls="navbarTogglerDemo02" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+            
+        <div class="collapse navbar-collapse" id="navbarTogglerDemo02">
+            <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
+                <li class="nav-item active">
+                    <a id="globeBtn" class="nav-link" href="#">Globe<span class="sr-only"></span></a>
+                </li>
+                <li class="nav-item">
+                    <a id="profileBtn" class="nav-link" href="#">Profile <span class="sr-only"></span></a>
+                </li>
+            </ul>
+            <form class="form-inline my-2 mr-auto my-lg-0">
+            <input class="form-control mr-sm-2" type="search" placeholder="Search">
+            <button class="btn btn-outline-info my-2 my-sm-0" type="submit">Search</button>
+            </form>
+            <ul class="navbar-nav mt-lg-0">
+                <li class="nav-item">
+                    <button type="button" class="btn btn-outline-info" data-toggle="modal" data-target=".bd-example-modal-lg">Login/Join</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <section class="page-container">
+        <div class="jumbotron container text-center">
+            <div id="worldMapView">
+                <button class="zoom-button reset" data-zoom="reset">0</button>
+                <button class="zoom-button out" data-zoom="out">-</button>
+                <button class="zoom-button in" data-zoom="in">+</button>
+                <div id="zoom-info"></div>
+            </div>
+            <div id="profileView" class="container" hidden>
+                <div class="profile row">
+                    <div class="bio col-lg-8">
+                        <div class="container">
+                            <div class="row">
+                                <div id="bioImg" class="col-md-auto">
+                                    <img src="http://www.hexatar.com/gallery/thumb/170829_104317_m04863a013b_avatar.png">
+                                </div>
+                                <div id="bioContent" class="col-lg-6">
+                                    <div id="Username">@RugbyBoi</div>
+                                    <div id="Name">
+                                        <span>Ryan Jones</span>
+                                    </div>
+                                    <br>
+                                    <div id="Description">At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque corrupti quos dolores et quas molestias excepturi sint occaecati cupiditate non provident, similique sunt in culpa qui officia deserunt mollitia animi, id est laborum et dolorum fuga.</div>
+                                    <div id="UsrUrl">
+                                        <a href="#"><i aria-hidden="true">@rugbyboi.com</i></a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="stats col-lg-4">
+                        <div class="container">
+                            <div class="row">
+                                
+                            </div>  
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+            
+        <div id="pixFeed" class="container">
+            <div class="row">
+                <div class="col-sm-4">
+                    <a class="ui card" href="">
+                        <img height="260"  class="ui image" src="http://media.syracuse.com/sports/photo/8381709-standard.jpg"/>
+                        <div class="content">
+                            <div class="header">Two Up flyby</div>
+                            <div class="meta">MotoAmerica Flyby</div>
+                        </div>
+                    </a>
+                </div>
+                <div class="col-sm-4">
+                    <a class="ui card" href="">
+                        <img height="260" class="ui image" src="http://media.syracuse.com/sports/photo/8381709-standard.jpg"/>
+                        <div class="content">
+                            <div class="header">Two Up flyby</div>
+                            <div class="meta">MotoAmerica Flyby</div>
+                        </div>
+                    </a>
+                </div>
+                <div class="col-sm-4">
+                    <a class="ui card" href="">
+                        <img height="260" class="ui image" src="http://media.syracuse.com/sports/photo/8381709-standard.jpg"/>
+                        <div class="content">
+                            <div class="header">Two Up flyby</div>
+                            <div class="meta">MotoAmerica Flyby</div>
+                        </div>
+                    </a>
+                </div>
+                <div class="col-sm-4">
+                    <a class="ui card" href="">
+                        <img height="260" class="ui image" src="http://media.syracuse.com/sports/photo/8381709-standard.jpg"/>
+                        <div class="content">
+                            <div class="header">Two Up flyby</div>
+                            <div class="meta">MotoAmerica Flyby</div>
+                        </div>
+                    </a>
+                </div>
+                <div class="col-sm-4">
+                    <a class="ui card" href="">
+                        <img height="260" class="ui image" src="http://media.syracuse.com/sports/photo/8381709-standard.jpg"/>
+                        <div class="content">
+                            <div class="header">Two Up flyby</div>
+                            <div class="meta">MotoAmerica Flyby</div>
+                        </div>
+                    </a>
+                </div>
+                <div class="col-sm-4">
+                    <a class="ui card" href="">
+                        <img height="260" class="ui image" src="http://media.syracuse.com/sports/photo/8381709-standard.jpg"/>
+                        <div class="content">
+                            <div class="header">Two Up flyby</div>
+                            <div class="meta">MotoAmerica Flyby</div>
+                        </div>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+    <div class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <nav class="nav nav-tabs" id="myTab" role="tablist">
+                    <a class="nav-item nav-link active" id="nav-home-tab" data-toggle="tab" href="#nav-home" role="tab" aria-controls="nav-home" aria-selected="true">Register</a>
+                    <a class="nav-item nav-link" id="nav-profile-tab" data-toggle="tab" href="#nav-profile" role="tab" aria-controls="nav-profile" aria-selected="false">Login</a>
+                </nav>
+                <div class="tab-content" id="nav-tabContent">
+                    <div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
+                        <div id="registerPage">
+                            <form id="registerForm" method="post" action="/users/register">
+                                <label>Username</label>
+                                <input type="text" name="username" placeholder="Username">
+                                <label>Email</label>
+                                <input type="email" name="email" placeholder="email@email.com">
+                                <label>Password</label>
+                                <input type="password" name="password" placeholder="Password">
+                                <label>Confirm Password</label>
+                                <input type="password" name="password2" placeholder="Password">
+                                <button id="registerBtn" type="submit" name="register" class="btn btn-info col-12">Register</button>
+                            </form>
+                                
+                            <div class="login-help">
+                                <a href="#">Forgot Password</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">
+                        <div id="loginPage">
+                            <form id="loginForm" method="post" action="/auth/login">
+                                <label>Username</label>
+                                <input type="text" name="user" placeholder="Username">
+                                <label>Password</label>
+                                <input type="password" name="pass" placeholder="Password">
+                                <button id="loginBtn" type="submit" name="login" class="btn btn-info col-12" value="Login">Login</button>
+                            </form>
+                                
+                            <div class="login-help">
+                                <a href="#">Forgot Password</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+      <div id="login-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
+            <div class="loginmodal-container">
+        </div>
+    </div>
+<!--Firebase-->
+<script src="https://www.gstatic.com/firebasejs/4.8.0/firebase.js"></script>
+<script>
+    var config = {
+        apiKey: "AIzaSyB13osHrS_1yU-URWqjCvBnwdhQHjfy2hQ",
+        authDomain: "itracku-922d4.firebaseapp.com",
+        databaseURL: "https://itracku-922d4.firebaseio.com",
+        projectId: "itracku-922d4",
+        storageBucket: "",
+        messagingSenderId: "197838241214"
+    };
+    firebase.initializeApp(config);
+</script>
+<!--Bootstrap & JQuery-->
+<script src="./js/jquery-3.2.1.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js" integrity="sha384-vFJXuSJphROIrBnz7yo7oB41mKfc8JzQZiCq4NCceLEaO4IHwicKwpJf9c9IpFgh" crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js" integrity="sha384-alpBpkh1PFOepccYVYDB4do5UnbKysX5WZXm3XxPqe5iKTfUKjNkCk9SaVuEZflJ" crossorigin="anonymous"></script> 
+<!--Datamaps-->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.3/d3.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/topojson/1.6.9/topojson.min.js"></script>
+<script src="./datamap/datamaps.world.min.js"></script>
+<!--Webpack-->
+<script src="./bundle.js"></script>
+</body>
+</html>

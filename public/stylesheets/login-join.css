@@ -1,0 +1,34 @@
+@import url(http://fonts.googleapis.com/css?family=Roboto);
+
+.modal-content {
+  padding-left: 1rem;
+  padding-right: 1rem;
+}
+.login-tab, .register-tab {
+  float: right;
+  border: none !important;
+}
+
+.modal-content input {
+  height: 44px;
+  font-size: 16px;
+  width: 100%;
+  margin-bottom: 10px;
+  -webkit-appearance: none;
+  background: #fff;
+  border: 1px solid #d9d9d9;
+  border-top: 1px solid #c0c0c0;
+  padding: 0 8px;
+  box-sizing: border-box;
+  -moz-box-sizing: border-box;
+}
+
+.modal-content a {
+  text-decoration: none;
+  color: #666;
+  font-weight: 400;
+  text-align: center;
+  display: inline-block;
+  opacity: 0.6;
+  transition: opacity ease 0.5s;
+} 

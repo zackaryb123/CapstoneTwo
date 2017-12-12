@@ -1,4 +1,0 @@
-//URLS
-//AJAX 
-//Render 
-//Display
