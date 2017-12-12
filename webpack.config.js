@@ -10,11 +10,4 @@ module.exports = {
         filename: 'bundle.js',
         path: path.resolve(__dirname, 'public')
     },
-    node: {
-        fs: "empty",
-        net: "empty",
-        tls: "empty",
-        module: "empty",
-        dns: "empty", 
-     }
 };
