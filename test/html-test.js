@@ -1,7 +1,7 @@
-'use strict';
+
 const chai = require('chai');
 const chaiHttp = require('chai-http');
-const app = require('../server.js');
+const {app} = require('../server.js');
 
 chai.should();
 
@@ -11,8 +11,8 @@ describe('GET index page', function() {
   it('Should exist', function() {
     return chai.request(app)
       .get('/')
-      .then(function (yes) {
-        expect(res).to.have.status(200);
+      .then(function (res) {
+        res.should.have.status(200);
       });
   });
 }); 
