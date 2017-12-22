@@ -1,11 +1,10 @@
 #profileView {
     padding: 1rem 1rem;
     position: relative;
-    border: 2px solid silver;
     border-radius: 0 0px 6px 6px;
 }
 
-#bioImg > img {
+#Avatar{
     border-radius: 500rem;
 }
 
@@ -27,14 +26,14 @@
     color: rgba(0,0,0,.6);
 }
 
-#Description {
+#Bio {
     margin: .6em 0 0 1rem;
     font-size: 1em;
     line-height: 1.4285em;
     color: rgba(0,0,0,.87);
 }
 
-#UsrUrl {
+#Email {
     display: block;
     position: relative;
     background: none;
@@ -47,4 +46,11 @@
     box-shadow: none;
     transition: color .3s ease;
     border-top: none;
+}
+
+#editBioBtn {
+    position: absolute;
+    right: 0;
+    top: 0;
+    padding: 0 15px 0 0;
 }

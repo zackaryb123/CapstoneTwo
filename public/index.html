@@ -19,20 +19,23 @@
             
         <div class="collapse navbar-collapse" id="navbarTogglerDemo02">
             <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
-                <li class="nav-item active">
-                    <a id="globeBtn" class="nav-link" href="#">Globe<span class="sr-only"></span></a>
-                </li>
                 <li class="nav-item">
                     <a id="profileBtn" class="nav-link" href="#">Profile <span class="sr-only"></span></a>
                 </li>
+                <li class="nav-item active">
+                    <a id="globeBtn" class="nav-link" href="#">Globe<span class="sr-only"></span></a>
+                </li>
             </ul>
-            <form class="form-inline my-2 mr-auto my-lg-0">
-            <input class="form-control mr-sm-2" type="search" placeholder="Search">
-            <button class="btn btn-outline-info my-2 my-sm-0" type="submit">Search</button>
-            </form>
+                <form class="form-inline my-2 mr-auto my-lg-0">
+                    <input class="form-control mr-sm-2" type="search" placeholder="Search">
+                    <button class="btn btn-outline-info my-2 my-sm-0" type="submit">Search</button>
+                </form>
             <ul class="navbar-nav mt-lg-0">
                 <li class="nav-item">
-                    <button type="button" class="btn btn-outline-info" data-toggle="modal" data-target=".bd-example-modal-lg">Login/Join</a>
+                    <button id="uploadBtn" type="button" class="btn btn-outline-info" data-toggle="modal" data-target="#Upload-Page">Upload</button>
+                </li>
+                <li class="nav-item">
+                    <button id="signoutBtn" type="button" class="btn btn-outline-info" data-toggle="modal" data-target="#login-joinPage" hidden>Sign Out</button>
                 </li>
             </ul>
         </div>
@@ -50,20 +53,21 @@
                 <div class="profile row">
                     <div class="bio col-lg-8">
                         <div class="container">
-                            <div class="row">
-                                <div id="bioImg" class="col-md-auto">
-                                    <img src="http://www.hexatar.com/gallery/thumb/170829_104317_m04863a013b_avatar.png">
+                            <div class="row js-profile">
+                                <div class="col-md-auto">
+                                    <img id="Avatar" src="/">
                                 </div>
                                 <div id="bioContent" class="col-lg-6">
-                                    <div id="Username">@RugbyBoi</div>
+                                    <div id="Username"></div>
                                     <div id="Name">
-                                        <span>Ryan Jones</span>
+                                        <span></span>
                                     </div>
                                     <br>
-                                    <div id="Description">At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque corrupti quos dolores et quas molestias excepturi sint occaecati cupiditate non provident, similique sunt in culpa qui officia deserunt mollitia animi, id est laborum et dolorum fuga.</div>
-                                    <div id="UsrUrl">
+                                    <div id="Bio"></div>
+                                    <div id="Email">
                                         <a href="#"><i aria-hidden="true">@rugbyboi.com</i></a>
                                     </div>
+                                    <button id="editBioBtn" type="button" class="btn btn-link">Edit</button>
                                 </div>
                             </div>
                         </div>
@@ -71,92 +75,49 @@
                     <div class="stats col-lg-4">
                         <div class="container">
                             <div class="row">
-                                
+                                <div>
+                                    <button id="refreshJWT" type="button" class="btn btn-light">Refresh Authentication</button>
+                                </div>
                             </div>  
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-            
-        <div id="pixFeed" class="container">
-            <div class="row">
-                <div class="col-sm-4">
-                    <a class="ui card" href="">
-                        <img height="260"  class="ui image" src="http://media.syracuse.com/sports/photo/8381709-standard.jpg"/>
-                        <div class="content">
-                            <div class="header">Two Up flyby</div>
-                            <div class="meta">MotoAmerica Flyby</div>
-                        </div>
-                    </a>
-                </div>
-                <div class="col-sm-4">
-                    <a class="ui card" href="">
-                        <img height="260" class="ui image" src="http://media.syracuse.com/sports/photo/8381709-standard.jpg"/>
-                        <div class="content">
-                            <div class="header">Two Up flyby</div>
-                            <div class="meta">MotoAmerica Flyby</div>
-                        </div>
-                    </a>
-                </div>
-                <div class="col-sm-4">
-                    <a class="ui card" href="">
-                        <img height="260" class="ui image" src="http://media.syracuse.com/sports/photo/8381709-standard.jpg"/>
-                        <div class="content">
-                            <div class="header">Two Up flyby</div>
-                            <div class="meta">MotoAmerica Flyby</div>
-                        </div>
-                    </a>
-                </div>
-                <div class="col-sm-4">
-                    <a class="ui card" href="">
-                        <img height="260" class="ui image" src="http://media.syracuse.com/sports/photo/8381709-standard.jpg"/>
-                        <div class="content">
-                            <div class="header">Two Up flyby</div>
-                            <div class="meta">MotoAmerica Flyby</div>
-                        </div>
-                    </a>
-                </div>
-                <div class="col-sm-4">
-                    <a class="ui card" href="">
-                        <img height="260" class="ui image" src="http://media.syracuse.com/sports/photo/8381709-standard.jpg"/>
-                        <div class="content">
-                            <div class="header">Two Up flyby</div>
-                            <div class="meta">MotoAmerica Flyby</div>
-                        </div>
-                    </a>
-                </div>
-                <div class="col-sm-4">
-                    <a class="ui card" href="">
-                        <img height="260" class="ui image" src="http://media.syracuse.com/sports/photo/8381709-standard.jpg"/>
-                        <div class="content">
-                            <div class="header">Two Up flyby</div>
-                            <div class="meta">MotoAmerica Flyby</div>
-                        </div>
-                    </a>
-                </div>
+
+        <!--Pictures Feed-->
+        <div class="container">
+            <div class="row" id="pixFeed">
+
             </div>
         </div>
+
     </section>
-    <div class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-lg">
+
+    <!--Login Modal-->
+    <div id="login-joinPage" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+        <div id="LoginJoinModal" class="modal-dialog modal-lg">
             <div class="modal-content">
                 <nav class="nav nav-tabs" id="myTab" role="tablist">
-                    <a class="nav-item nav-link active" id="nav-home-tab" data-toggle="tab" href="#nav-home" role="tab" aria-controls="nav-home" aria-selected="true">Register</a>
-                    <a class="nav-item nav-link" id="nav-profile-tab" data-toggle="tab" href="#nav-profile" role="tab" aria-controls="nav-profile" aria-selected="false">Login</a>
+                    <a class="nav-item btn-outline-info nav-link active" id="nav-register-tab" data-toggle="tab" href="#nav-register" role="tab" aria-controls="nav-register" aria-selected="true">Register</a>
+                    <a class="nav-item btn-outline-info nav-link" id="nav-login-tab" data-toggle="tab" href="#nav-login" role="tab" aria-controls="nav-login" aria-selected="false">Login</a>
                 </nav>
                 <div class="tab-content" id="nav-tabContent">
-                    <div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
+                    <div class="tab-pane fade show active" id="nav-register" role="tabpanel" aria-labelledby="nav-register-tab">
                         <div id="registerPage">
-                            <form id="registerForm" method="post" action="/users/register">
+                            <form id="registerForm">
                                 <label>Username</label>
-                                <input type="text" name="username" placeholder="Username">
+                                <input type="text" name="username" placeholder="Username" required>
+                                <label>First Name</label>
+                                <input type="text" name="firstName" placeholder="Zack" required>
+                                <label>Last Name</label>
+                                <input type="text" name="lastName" placeholder="Blaylock" required>
                                 <label>Email</label>
-                                <input type="email" name="email" placeholder="email@email.com">
+                                <input type="email" name="email" placeholder="email@email.com" required valid>
                                 <label>Password</label>
-                                <input type="password" name="password" placeholder="Password">
+                                <input type="password" name="password" placeholder="Password" required>
                                 <label>Confirm Password</label>
-                                <input type="password" name="password2" placeholder="Password">
+                                <input type="password" name="password2" placeholder="Password" required>
                                 <button id="registerBtn" type="submit" name="register" class="btn btn-info col-12">Register</button>
                             </form>
                                 
@@ -165,16 +126,16 @@
                             </div>
                         </div>
                     </div>
-                    <div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">
+                    <div class="tab-pane fade" id="nav-login" role="tabpanel" aria-labelledby="nav-login-tab">
                         <div id="loginPage">
-                            <form id="loginForm" method="post" action="/auth/login">
+                            <form id="loginForm">
                                 <label>Username</label>
-                                <input type="text" name="user" placeholder="Username">
+                                <input type="text" name="username" placeholder="Username" required>
                                 <label>Password</label>
-                                <input type="password" name="pass" placeholder="Password">
+                                <input type="password" name="password" placeholder="Password" required>
                                 <button id="loginBtn" type="submit" name="login" class="btn btn-info col-12" value="Login">Login</button>
                             </form>
-                                
+                    
                             <div class="login-help">
                                 <a href="#">Forgot Password</a>
                             </div>
@@ -183,23 +144,36 @@
                 </div>
             </div>
         </div>
-      <div id="login-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
-            <div class="loginmodal-container">
+    </div>
+
+    <!--Upload Modal-->
+    <div class="modal fade" id="Upload-Page" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Upload a Photo</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form id="Upload-Form">
+                        <label>Title</label>
+                        <input type="text" name="title" placeholder="Title">
+                        <label>Caption</label>
+                        <input type="text" name="caption" placeholder="caption">
+                        <label>Longitude</label>
+                        <input type="text" name="longitude" placeholder="longitude">
+                        <label>Latitude</label>
+                        <input type="text" name="latitude" placeholder="latitude">
+                        <label>Image</label>
+                        <input type="file" name="image" accept="*">
+                        <button id="Upload-Btn" type="submit" name="upload" class="btn btn-info col-12">Upload</button>
+                    </form>
+                </div>
+            </div>
         </div>
     </div>
-<!--Firebase-->
-<script src="https://www.gstatic.com/firebasejs/4.8.0/firebase.js"></script>
-<script>
-    var config = {
-        apiKey: "AIzaSyB13osHrS_1yU-URWqjCvBnwdhQHjfy2hQ",
-        authDomain: "itracku-922d4.firebaseapp.com",
-        databaseURL: "https://itracku-922d4.firebaseio.com",
-        projectId: "itracku-922d4",
-        storageBucket: "",
-        messagingSenderId: "197838241214"
-    };
-    firebase.initializeApp(config);
-</script>
 <!--Bootstrap & JQuery-->
 <script src="./js/jquery-3.2.1.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js" integrity="sha384-vFJXuSJphROIrBnz7yo7oB41mKfc8JzQZiCq4NCceLEaO4IHwicKwpJf9c9IpFgh" crossorigin="anonymous"></script>
@@ -210,5 +184,12 @@
 <script src="./datamap/datamaps.world.min.js"></script>
 <!--Webpack-->
 <script src="./bundle.js"></script>
+<script type="text/javascript">
+    $(document).ready(function(){
+        localStorage.clear();
+        localStorage.setItem('JWT', JSON.stringify({token: ''}));
+        $("#login-joinPage").modal('show');
+    });
+</script>
 </body>
 </html>

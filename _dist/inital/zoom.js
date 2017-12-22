@@ -1,9 +1,9 @@
 function Zoom(args) {
     $.extend(this, {
-      $buttons:   $(".zoom-button"),
-      $info:      $("#zoom-info"),
+      buttons:   $(".zoom-button"),
+      info:      $("#zoom-info"),
       scale:      { max: 50, currentShift: 0 },
-      $container: args.$container,
+      container: args.container,
       datamap:    args.datamap
     });
   
@@ -32,7 +32,7 @@ function Zoom(args) {
   };
   
   Zoom.prototype.listen = function() {
-    this.$buttons.off("click").on("click", this._handleClick.bind(this));
+    this.buttons.off("click").on("click", this._handleClick.bind(this));
   
     this.datamap.svg
       .call(this.d3Zoom.on("zoom", this._handleScroll.bind(this)))
@@ -60,7 +60,7 @@ function Zoom(args) {
   };
   
   Zoom.prototype._shift = function(direction) {
-    var center = [ this.$container.width() / 2, this.$container.height() / 2 ],
+    var center = [ this.container.width() / 2, this.container.height() / 2 ],
         translate = this.d3Zoom.translate(), translate0 = [], l = [],
         view = {
           x: translate[0],
@@ -91,8 +91,8 @@ function Zoom(args) {
   };
   
   Zoom.prototype._bound = function(translate, scale) {
-    var width = this.$container.width(),
-        height = this.$container.height();
+    var width = this.container.width(),
+        height = this.container.height();
   
     translate[0] = Math.min(
       (width / height)  * (scale - 1),
@@ -133,7 +133,7 @@ function Zoom(args) {
     var value;
   
     value = Math.round(Math.log(scale) / Math.log(this.scale.max) * 100);
-    this.$info.text(value + "%");
+    this.info.text(value + "%");
   };
   
   Zoom.prototype._getScalesArray = function() {

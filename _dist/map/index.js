@@ -1,20 +1,7 @@
-import {Zoom} from './zoom.js';
+import * as render from './render.js';
 
-function Datamap() {
-    this.$container = $("#worldMapView");
-    this.instance = new Datamaps({
-    scope: 'world',
-    element: this.$container.get(0),
-    projection: 'mercator',
-    done: this._handleMapReady.bind(this),
-    });
-}
+//import * as callback from './render.js';
 
-Datamap.prototype._handleMapReady = function(datamap) {
-    this.zoom = new Zoom({
-        $container: this.$container,
-        datamap: datamap
-    });
-};
+//import * as data from './data.js';
 
-new Datamap();
+export {render};

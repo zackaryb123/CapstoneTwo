@@ -1,14 +1,16 @@
 'use strict';
 const express = require('express');
 const bodyParser = require('body-parser');
+const passport = require('passport');
 
 const {User} = require('./models');
 const router = express.Router();
 const jsonParser = bodyParser.json();
 
-// Post to register a new user
-router.post('/register', jsonParser, (req, res) => {
-  const requiredFields = ['username', 'password'];
+router.use(jsonParser); //removed middleware jsonParser from post and made router use 
+
+router.post('/register', (req, res) => {
+  const requiredFields = ["username", 'password', 'password2', 'password2', 'firstName', 'lastName'];
   const missingField = requiredFields.find(field => !(field in req.body));
 
   if (missingField) {
@@ -20,7 +22,7 @@ router.post('/register', jsonParser, (req, res) => {
     });
   }
 
-  const stringFields = ['username', 'password', 'firstName', 'lastName'];
+  const stringFields = ['username', 'password', 'password2', 'email', 'firstName', 'lastName'];
   const nonStringField = stringFields.find(
     field => field in req.body && typeof req.body[field] !== 'string'
   );
@@ -33,7 +35,7 @@ router.post('/register', jsonParser, (req, res) => {
       location: nonStringField
     });
   }
-  const explicityTrimmedFields = ['username', 'password'];
+  const explicityTrimmedFields = ['username', 'password', 'password2', 'email'];
   const nonTrimmedField = explicityTrimmedFields.find(
     field => req.body[field].trim() !== req.body[field]
   );
@@ -44,6 +46,17 @@ router.post('/register', jsonParser, (req, res) => {
       reason: 'ValidationError',
       message: 'Cannot start or end with whitespace',
       location: nonTrimmedField
+    });
+  }
+
+  const nonMatchingPasswords = req.body.password !== req.body.password2;
+  
+  if (nonMatchingPasswords){
+    return res.status(422).json({
+      code: 422,
+      reason: 'ValidationError',
+      message: 'Passwords must match',
+      location: nonMatchingPasswords
     });
   }
 
@@ -80,7 +93,8 @@ router.post('/register', jsonParser, (req, res) => {
     });
   }
 
-  let {username, password, firstName = '', lastName = ''} = req.body;
+  let {username, password, email, firstName, lastName, bio = 'Edit to add personal biography.', 
+  avatar = "img/avatar.png"} = req.body;
   firstName = firstName.trim();
   lastName = lastName.trim();
 
@@ -102,16 +116,14 @@ router.post('/register', jsonParser, (req, res) => {
         username,
         password: hash,
         firstName,
-        lastName
+        lastName,
+        email,
+        bio,
+        avatar
       });
     })
     .then(user => {
-      console.log(user.username);
-      console.log(user.password);
-      console.log(user.email);
-      console.log(user.firstName);
-      console.log(user.lastName);
-      return res.status(201).json(user.serialize());
+      return res.status(201).json(user.apiRepr());
     })
     .catch(err => {
       if (err.reason === 'ValidationError') {
@@ -121,11 +133,15 @@ router.post('/register', jsonParser, (req, res) => {
     });
 });
 
-//Get all users info
-router.get('/', (req, res) => {
-  return User.find()
-    .then(users => res.json(users.map(user => user.serialize())))
-    .catch(err => res.status(500).json({message: 'Internal server error'}));
+const jwtAuth = passport.authenticate('jwt', {session: false});
+router.get('/protected/:username', jwtAuth, (req, res) => {
+  return User
+    .findOne(req.body.username)
+    .then(user => res.json(user.apiRepr()))
+    .catch(err => {
+      console.error(err);
+      res.status(500).json({message: 'Internal server error'})
+  });
 });
 
 module.exports = {router};

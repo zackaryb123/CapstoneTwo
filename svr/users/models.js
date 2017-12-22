@@ -9,15 +9,19 @@ const UserSchema = mongoose.Schema({
   password: {type: String, required: true},
   firstName: {type: String, required: true},
   lastName: {type: String, required: true},
-  email: {type: String, required: true}
+  email: {type: String, required: true},
+  bio: {type: String, default: 'Edit to add personal biography.'},
+  avatar: {type: String, default: "img/avatar.png"}
 });
 
-UserSchema.methods.serialize = function() {
+UserSchema.methods.apiRepr = function() {
   return {
-    username: this.username || '',
-    firstName: this.firstName || '',
-    lastName: this.lastName || '',
-    email: this.email || ''
+    username: this.username,
+    firstName: this.firstName,
+    lastName: this.lastName,
+    email: this.email,
+    bio: this.bio || 'Edit to add personal biography.',
+    avatar: this.avatar || 'img/avatar.png'
   };
 };
 
