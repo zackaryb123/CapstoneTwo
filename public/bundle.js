@@ -218,6 +218,10 @@ function WatchApplication() {
         });
     });
 
+    $('#pixFeed').on('click', '.post-card', (event) => {
+        __WEBPACK_IMPORTED_MODULE_3__post_index_js__["a" /* callback */].OnPostClick(event);
+    })
+
     // Watch sign out buttons
     $('#signoutBtn').click((event) => {
         __WEBPACK_IMPORTED_MODULE_2__user_index_js__["a" /* callback */].SignOutSuccess(event);
@@ -225,55 +229,6 @@ function WatchApplication() {
 }
 
 $(WatchApplication);
-
-
-/* function GeoUpload(position) {
-    let JWT = JSON.parse(localStorage.getItem('JWT')).token;
-    let currentUser = JSON.parse(localStorage.getItem('currentUser')).username;
-    let data = new FormData($('#Upload-Form')[0]);
-
-    data.set('longitude', position.coords.longitude);
-    data.set('latitude', position.coords.latitude);
-
-    data.set('username', `${currentUser}`);
-    console.log(data);
-
-    ajax.postAuthFile(POST_POST_URL, JWT, data,
-    (success) =>{
-        post.callback.UploadSuccess(success);
-        ajax.getAuth(`${GET_PROFILE_URL}/${username}`, JWT, username, 
-        (success) =>{
-            user.render.ProfileResults(success);
-        }, (error) =>{
-            console.log(error);
-        });
-    }, (error) => {
-        console.log(error);
-    });
-}
-
-function ManualUpload() {
-    let JWT = JSON.parse(localStorage.getItem('JWT')).token;
-    let currentUser = JSON.parse(localStorage.getItem('currentUser')).username;
-    let data = new FormData($('#Upload-Form')[0]);
-
-    let geo = navigator.geolocation.getCurrentPosition()
-    data.set('username', `${currentUser}`);
-    console.log(data);
-
-    ajax.postAuthFile(POST_POST_URL, JWT, data,
-    (success) =>{
-        post.callback.UploadSuccess(success);
-        ajax.getAuth(`${GET_PROFILE_URL}/${username}`, JWT, username, 
-        (success) =>{
-            user.render.ProfileResults(success);
-        }, (error) =>{
-            console.log(error);
-        });
-    }, (error) => {
-        console.log(error);
-    });
-} */
 
 /***/ }),
 /* 2 */
@@ -796,13 +751,14 @@ function PostResults(render) {
     let results = '';
     render.forEach((post, index) => {
         results += `                
-        <div id="${post.public_id}" class="col-sm-4">
-            <a class="ui card">
+        <div id="${post.public_id}" class="post-card col-sm-4">
+            <a class="ui card" data-toggle="modal" data-target="#Post-Page">
                 <image height="260" class="ui image" src="${post.secure_url}" />
                 <div class="content">
                     <div class="header">${post.title}</div>
                     <div class="meta">${post.caption}</div>
-                    <div><span>${post.latitude}x${post.longitude}</span></div>
+                    <div class=longitude>${post.longitude}</div>
+                    <div class="latitude">${post.latitude}</div>
                     <div class="date">${post.created_at}</div>
                 </div>
             </a>
@@ -825,8 +781,6 @@ function getUploadFormData(event) {
         username: currentUser,
         title: $(event.currentTarget).find("input[name=title]").val(),
         caption: $(event.currentTarget).find("input[name=caption]").val(),
-        longitude: $(event.currentTarget).find("input[name=longitude]").val(),
-        latitude: $(event.currentTarget).find("input[name=latitude]").val(),
         img: $(event.currentTarget).find("input[name=image]").val() 
     }
 
@@ -839,6 +793,7 @@ function getUploadFormData(event) {
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony export (immutable) */ __webpack_exports__["UploadSuccess"] = UploadSuccess;
+/* harmony export (immutable) */ __webpack_exports__["OnPostClick"] = OnPostClick;
 function UploadSuccess(suc) {
     //callback
     
@@ -847,6 +802,25 @@ function UploadSuccess(suc) {
     $("#Upload-Page").modal('hide');
 
     alert(`${suc.title} successfully Uploaded!`);
+}
+
+function OnPostClick(event) {
+    let post_id = $(event.currentTarget).attr('id');
+    console.log(post_id);
+
+    let img_url = $(event.currentTarget).find('img').attr('src');
+    console.log(img_url);
+
+    let title = $(event.currentTarget).find('div .content > .header').text;
+    let caption = $(event.currentTarget).find('div .content > .meta').text;
+    let longitude = $(event.currentTarget).find('div .content > .longitude').text;
+    let latitude = $(event.currentTarget).find('div .content > .latitude').text;
+    let date = $(event.currentTarget).find('div .content > .date').text;
+
+    console.log(`t: ${title} c: ${caption} long: ${longitude} lat: ${latitude} date: ${date}`);
+
+    $('#Post-Card img').attr('src', img_url);
+    //Set image rem to 30
 }
 
 /***/ }),

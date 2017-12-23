@@ -2,15 +2,14 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const passport = require('passport');
 const cloudinary = require('cloudinary');
-
 const path = require('path');
-const fs = require('fs');
 const multer = require('multer');
 
 const { Post } = require('./models');
 const router = express.Router();
 router.use(bodyParser.json());
-const upload = multer({ dest: './uploads'});
+// need to figure out how to clear local ./uploads after file has been uploaded to cloudinary
+const upload = multer({ dest: './svr/post/uploads'}); 
 
 cloudinary.config({
     cloud_name: 'diygdnbei',
@@ -54,8 +53,8 @@ router.post('/protected/uploads', [jwtAuth, upload.single('image')], (req, res) 
             username: res.tags[2],
             title: res.tags[0],
             caption: res.tags[1],
-            longitude: res.tags[3],
-            latitude: res.tags[4],
+            longitude: res.tags[4],
+            latitude: res.tags[3],
             width: res.width,
             height: res.height,
             format: res.format,

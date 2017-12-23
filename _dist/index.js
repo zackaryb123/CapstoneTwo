@@ -135,6 +135,10 @@ function WatchApplication() {
         });
     });
 
+    $('#pixFeed').on('click', '.post-card', (event) => {
+        post.callback.OnPostClick(event);
+    })
+
     // Watch sign out buttons
     $('#signoutBtn').click((event) => {
         user.callback.SignOutSuccess(event);

@@ -2,20 +2,20 @@ const mongoose = require('mongoose');
 mongoose.Promise = global.Promise;
 
 const PostSchema = mongoose.Schema({
-    public_id: {type: String}, //required
-    username: {type: String},
+    public_id: {type: String, required: true},
+    username: {type: String, required: true},
     title: {type: String},
     caption: {type: String},
-    longitude: {type: Number},
-    latitude: {type: Number},
+    longitude: {type: Number, default: null},
+    latitude: {type: Number, default: null},
     signature: {type: String},
     width: {type: Number},
     height: {type: String},
     format: {type: String},
     created_at: {type: Date},
     bytes: {type: Number},
-    url: {type: String}, //required
-    secure_url: {type: String} //required
+    url: {type: String, required: true},
+    secure_url: {type: String, required: true}
 });
 
 PostSchema.methods.apiRepr = function() {
@@ -24,15 +24,10 @@ PostSchema.methods.apiRepr = function() {
         title: this.title,
         username: this.username,
         caption: this.caption,
-        longitude: this.longitude,
-        latitude: this.latitude,
-        //signature: this.signature,
-        //width: this.width,
-        //height: this.height,
-        //format: this.format,
+        longitude: this.longitude || null,
+        latitude: this.latitude || null,
         created_at: this.created_at,
-        // bytes: this.bytes,
-        url: this.url, //required
+        url: this.url, 
         secure_url: this.secure_url
     };
 }

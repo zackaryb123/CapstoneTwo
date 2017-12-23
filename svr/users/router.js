@@ -10,7 +10,7 @@ const jsonParser = bodyParser.json();
 router.use(jsonParser); //removed middleware jsonParser from post and made router use 
 
 router.post('/register', (req, res) => {
-  const requiredFields = ["username", 'password', 'password2', 'password2', 'firstName', 'lastName'];
+  const requiredFields = ["username", 'password', 'firstName', 'lastName', 'email'];
   const missingField = requiredFields.find(field => !(field in req.body));
 
   if (missingField) {
@@ -22,7 +22,7 @@ router.post('/register', (req, res) => {
     });
   }
 
-  const stringFields = ['username', 'password', 'password2', 'email', 'firstName', 'lastName'];
+  const stringFields = ['username', 'password', 'email', 'firstName', 'lastName'];
   const nonStringField = stringFields.find(
     field => field in req.body && typeof req.body[field] !== 'string'
   );
@@ -35,7 +35,7 @@ router.post('/register', (req, res) => {
       location: nonStringField
     });
   }
-  const explicityTrimmedFields = ['username', 'password', 'password2', 'email'];
+  const explicityTrimmedFields = ['username', 'password', 'email'];
   const nonTrimmedField = explicityTrimmedFields.find(
     field => req.body[field].trim() !== req.body[field]
   );

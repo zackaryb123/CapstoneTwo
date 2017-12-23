@@ -1,12 +1,22 @@
 @import url(http://fonts.googleapis.com/css?family=Roboto);
 
-.modal-content {
+.login-join.modal-content,
+.upload.modal-content {
   padding-left: 1rem;
   padding-right: 1rem;
-  max-width: 75%;
   margin-left: auto;
   margin-right: auto;
 }
+
+.post.modal-content {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.post.container{
+  padding: 0px;
+}
+
 .login-tab, .register-tab {
   float: right;
   border: none !important;
@@ -37,3 +47,18 @@
   opacity: 0.6;
   transition: opacity ease 0.5s;
 } 
+
+
+.post.modal-content{
+  max-width: 100%;
+}
+
+.login-join.modal-content,
+.upload.modal-content {
+  max-width: 75%;
+}
+
+#Upload-Form input[type=file] {
+  height: 100%;
+  padding: 0;
+}

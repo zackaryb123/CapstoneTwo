@@ -7,7 +7,7 @@
     <title>iTrackU</title>
     <link rel="stylesheet" href="stylesheets/bootstrap.css"/>
     <link rel="stylesheet" href="stylesheets/main.css"/>
-    <link rel="stylesheet" href="stylesheets/login-join.css"/>
+    <link rel="stylesheet" href="stylesheets/modal.css"/>
     <link rel="stylesheet" href="stylesheets/profile.css"/>
 </head>
 <body>
@@ -65,7 +65,7 @@
                                     <br>
                                     <div id="Bio"></div>
                                     <div id="Email">
-                                        <a href="#"><i aria-hidden="true">@rugbyboi.com</i></a>
+                                        <a href="#"><i aria-hidden="true"></i></a>
                                     </div>
                                     <button id="editBioBtn" type="button" class="btn btn-link">Edit</button>
                                 </div>
@@ -93,11 +93,38 @@
         </div>
 
     </section>
+    <!--Post Modal-->
+    <div id="Post-Page" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+        <div id="Post-Modal" class="modal-dialog modal-lg">
+            <div class="post modal-content">
+                <div class="post container">
+                    <div class="row">
+                        <div class="col">
+                            <div id="Post-Card" class="card" style="width: 20rem;">
+                                <img class="card-img-top" src="/" alt="Card image cap">
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div id="Post-Content" class="card-body">
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">×</span>
+                                </button>
+                                <h4 class="card-title"></h4>
+                                <p class="card-text"></p>
+                                <span class="card-long"></span><br><span class="card-lat"></span>
+                                <p class="card-date"></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 
     <!--Login Modal-->
     <div id="login-joinPage" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
         <div id="LoginJoinModal" class="modal-dialog modal-lg">
-            <div class="modal-content">
+            <div class="login-join modal-content">
                 <nav class="nav nav-tabs" id="myTab" role="tablist">
                     <a class="nav-item btn-outline-info nav-link active" id="nav-register-tab" data-toggle="tab" href="#nav-register" role="tab" aria-controls="nav-register" aria-selected="true">Register</a>
                     <a class="nav-item btn-outline-info nav-link" id="nav-login-tab" data-toggle="tab" href="#nav-login" role="tab" aria-controls="nav-login" aria-selected="false">Login</a>
@@ -107,17 +134,17 @@
                         <div id="registerPage">
                             <form id="registerForm">
                                 <label>Username</label>
-                                <input type="text" name="username" placeholder="Username" required>
+                                <input type="text" name="username" placeholder="Username"> <!--required-->
                                 <label>First Name</label>
-                                <input type="text" name="firstName" placeholder="Zack" required>
+                                <input type="text" name="firstName" placeholder="Zack"> <!--required-->
                                 <label>Last Name</label>
-                                <input type="text" name="lastName" placeholder="Blaylock" required>
+                                <input type="text" name="lastName" placeholder="Blaylock"> <!--required-->
                                 <label>Email</label>
-                                <input type="email" name="email" placeholder="email@email.com" required valid>
+                                <input type="email" name="email" placeholder="email@email.com"> <!--required valid-->
                                 <label>Password</label>
-                                <input type="password" name="password" placeholder="Password" required>
+                                <input type="password" name="password" placeholder="Password"> <!--required-->
                                 <label>Confirm Password</label>
-                                <input type="password" name="password2" placeholder="Password" required>
+                                <input type="password" name="password2" placeholder="Password"> <!--required-->
                                 <button id="registerBtn" type="submit" name="register" class="btn btn-info col-12">Register</button>
                             </form>
                                 
@@ -130,9 +157,9 @@
                         <div id="loginPage">
                             <form id="loginForm">
                                 <label>Username</label>
-                                <input type="text" name="username" placeholder="Username" required>
+                                <input type="text" name="username" placeholder="Username"> <!--required-->
                                 <label>Password</label>
-                                <input type="password" name="password" placeholder="Password" required>
+                                <input type="password" name="password" placeholder="Password"> <!--required-->
                                 <button id="loginBtn" type="submit" name="login" class="btn btn-info col-12" value="Login">Login</button>
                             </form>
                     
@@ -149,7 +176,7 @@
     <!--Upload Modal-->
     <div class="modal fade" id="Upload-Page" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
-            <div class="modal-content">
+            <div class="upload modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="exampleModalLabel">Upload a Photo</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -159,15 +186,11 @@
                 <div class="modal-body">
                     <form id="Upload-Form">
                         <label>Title</label>
-                        <input type="text" name="title" placeholder="Title">
+                        <input type="text" name="title" placeholder="Title"> <!--required-->
                         <label>Caption</label>
                         <input type="text" name="caption" placeholder="caption">
-                        <label>Longitude</label>
-                        <input type="text" name="longitude" placeholder="longitude">
-                        <label>Latitude</label>
-                        <input type="text" name="latitude" placeholder="latitude">
                         <label>Image</label>
-                        <input type="file" name="image" accept="*">
+                        <input type="file" name="image" accept="*"> <!--required-->
                         <button id="Upload-Btn" type="submit" name="upload" class="btn btn-info col-12">Upload</button>
                     </form>
                 </div>
