@@ -2,15 +2,20 @@
 const REGISTER_URL = "http://localhost:8080/users/register";
 const LOGIN_URL = "http://localhost:8080/auth/login";
 const REFRESH_URL = "http://localhost:8080/auth/refresh";
-const INIT_MAP_URL = "http://localhost:8080/map/initial";
 
 // GET Urls
 const GET_POST_URL = "http://localhost:8080/post/protected"; 
 const GET_PROFILE_URL = "http://localhost:8080/users/protected";
-const GET_MAP_URL = "http://localhost:8080/map/protected";
 
 // POST Urls
 const POST_POST_URL = "http://localhost:8080/post/protected/uploads";
+
+// PUT Urls
+
+
+// DELETE Urls
+const DELETE_POST_URL = "http://localhost:8080/post/protected/delete";
+//const DELETE_USER_URL = "http://localhost:8080/user/protected/delete";
 
 import * as init from './inital/index.js';
 
@@ -20,9 +25,13 @@ import * as user from './user/index.js';
 
 import * as post from './post/index.js';
 
-import * as map from './map/index.js';
+let datamap = new init.Datamap();
 
 function WatchApplication() {
+    // $(window).on('resize', function() {
+    //     map.resize();
+    // });
+
     // Watch Navbar buttons
     $('ul.navbar-nav').on('click', '.nav-link', event => {
         init.watchNavBtns(event);
@@ -39,14 +48,6 @@ function WatchApplication() {
         const userData = user.data.getRegisterFormInfo(event);
         ajax.post(REGISTER_URL, userData,
             (success) => {
-                let container = '#worldMapView';
-                ajax.post(INIT_MAP_URL,
-                    {username: userData.username, datamap: new init.Datamap(container)},
-                    (success) => {
-                        console.log('initialize map successful');
-                    }, (error) => {
-                        console.log(error);
-                });
                 user.callback.RegisterSuccess(success);
             }, (error) => {
                 user.callback.RegisterError(error);
@@ -61,28 +62,28 @@ function WatchApplication() {
                 const username = $(event.currentTarget).find('input[name=username]').val();
                 localStorage.setItem('currentUser', JSON.stringify({username: username}));
                 localStorage.setItem('JWT', JSON.stringify({token: success.authToken}));
+                const JWT = JSON.parse(localStorage.getItem('JWT')).token;
 
-                const currentUser = JSON.parse(localStorage.getItem('currentUser')).username;
-                const JWT = JSON.parse(localStorage.getItem('JWT')).token; 
-
-                ajax.getAuth(`${GET_POST_URL}/${username}`, JWT, username, 
+                ajax.getAuth(`${GET_POST_URL}/${username}`, JWT, 
                     (success) => {
+                        if (success.length > 0){
+                            datamap.instance.bubbles(success,{
+                                popupTemplate: (geo, data) => {
+                                    return ['<div class="hoverinfo">' + data.title,
+                                        '<br/><image width="100px" src="' + data.secure_url + '"/>' + '',
+                                        '</div>'].join('');
+                                }
+                            });
+                        }
                         post.render.PostResults(success);
-                }, (error) => {
-                    console.log(error);
-                }, );
-                ajax.getAuth(`${GET_PROFILE_URL}/${username}`, JWT, username, 
+                    }, (error) => {
+                        console.log(error);
+                });
+                ajax.getAuth(`${GET_PROFILE_URL}/${username}`, JWT, 
                     (success) =>{
                         user.render.ProfileResults(success);
-                }, (error) =>{
-                    console.log(error);
-                });
-                ajax.getAuth(`${GET_MAP_URL}/${username}`, JWT, username, 
-                    (success) => {
-                        new init.Datamap('#worldMapView');
-                        map.render.MapResults(success);
-                }, (error) => {
-                    console.log(error);
+                    }, (error) =>{
+                        console.log(error);
                 });
                 user.callback.LoginSuccess(username);
             }, (error) => {
@@ -102,34 +103,78 @@ function WatchApplication() {
             });
     });
 
+    $('#Delete-Post').click(event => {
+        let post_id = $('#Post-ID').text();
+        let JWT = JSON.parse(localStorage.getItem('JWT')).token;
+        let username = JSON.parse(localStorage.getItem('currentUser')).username;
+        ajax.deleteAuth(`${DELETE_POST_URL}/${post_id}`, JWT,
+           (success) => {
+                ajax.getAuth(`${GET_POST_URL}/${username}`, JWT,
+                    (success) => {
+                        if (success.length > 0) {
+                            datamap.instance.bubbles(success, {
+                                popupTemplate: (geo, data) => {
+                                    return ['<div class="hoverinfo">' + data.title,
+                                        '<br/><image width="50px" src="' + data.secure_url + '"/>' + '',
+                                        '</div>'].join('');
+                                }
+                            });
+                        }
+                        post.render.PostResults(success);
+                    },  (error) => {
+                        console.log(error);
+                    });
+       },
+           (error) => {
+                console.log(error);
+           });
+    });
+
     $('#uploadBtn').on('click', () => {
         navigator.geolocation.getCurrentPosition(function(pos){
             localStorage.setItem('geo', JSON.stringify({long: pos.coords.longitude, lat: pos.coords.latitude}));
         });
-    })
+    });
+
     $('#Upload-Form').submit((event) => {
         event.preventDefault();
 
         let latitude = JSON.parse(localStorage.getItem('geo')).lat;
         let longitude = JSON.parse(localStorage.getItem('geo')).long;
+        console.log(latitude);
         let JWT = JSON.parse(localStorage.getItem('JWT')).token;
         let username = JSON.parse(localStorage.getItem('currentUser')).username;
 
-        let data = new FormData($('#Upload-Form')[0]);
-        data.set('longitude', longitude);
-        data.set('latitude', latitude);
-        data.set('username', username);
+        let formData = new FormData($('#Upload-Form')[0]);
+        formData.set('longitude', longitude);
+        formData.set('latitude', latitude);
+        formData.set('username', username);
 
-        ajax.postAuthFile(POST_POST_URL, JWT, data,
+        ajax.postAuthFile(POST_POST_URL, JWT, formData,
         (success) =>{
+            let bubble = {
+                title: success.title,
+                longitude: success.longitude,
+                latitude: success.latitude,
+                radius: success.radius,
+                created_at: success.created_at
+            };
+            ajax.getAuth(`${GET_POST_URL}/${username}`, JWT,
+                (success) => {
+                    if (success.length > 0){
+                        datamap.instance.bubbles(success,{
+                            popupTemplate: (geo, data) => {
+                                return ['<div class="hoverinfo">' + data.title,
+                                    '<br/><image width="100px" src="' + data.secure_url + '"/>' + '',
+                                    '</div>'].join('');
+                            }
+                        });
+                    }
+                    post.render.PostResults(success);
+                }, (error) => {
+                    console.log(error);
+                });
             post.callback.UploadSuccess(success);
-            let username = JSON.parse(localStorage.getItem('currentUser')).username;
-            ajax.getAuth(`${GET_POST_URL}/${username}`, JWT, username, 
-            (success) =>{
-                post.render.PostResults(success);
-            }, (error) =>{
-                console.log(error);
-            });
         }, (error) => {
             console.log(error);
         });
@@ -137,7 +182,7 @@ function WatchApplication() {
 
     $('#pixFeed').on('click', '.post-card', (event) => {
         post.callback.OnPostClick(event);
-    })
+    });
 
     // Watch sign out buttons
     $('#signoutBtn').click((event) => {
