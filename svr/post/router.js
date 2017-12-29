@@ -21,8 +21,8 @@ cloudinary.config({
 const jwtAuth = passport.authenticate('jwt', { session: false });
 
 router.get('/protected/:username', jwtAuth, (req, res) => {
-    let {username} = req.body;
-    Post.find(username)
+    let {username} = req.params;
+    Post.find({username: username})
         .then(posts => 
             res.json(posts.map((post) => post.apiRepr()))
         ).catch(err => {
@@ -35,11 +35,11 @@ router.post('/protected/uploads', [jwtAuth, upload.single('image')], (req, res) 
     if (!('username' in req.body)) {
         const message = `Missing username in request body`;
         console.error(message);
-        return res.status(400).send(message);
+        return res.status(422).send(message);
     } if (!('path' in req.file)) {
         const message = `Missing path in request file`;
         console.error(message);
-        return res.status(400).send(message);
+        return res.status(422).send(message);
     }
 
     cloudinary.v2.uploader.upload(req.file.path, 
@@ -53,8 +53,8 @@ router.post('/protected/uploads', [jwtAuth, upload.single('image')], (req, res) 
             username: res.tags[2],
             title: res.tags[0],
             caption: res.tags[1],
-            longitude: res.tags[4],
-            latitude: res.tags[3],
+            longitude: res.tags[3],
+            latitude: res.tags[4],
             width: res.width,
             height: res.height,
             format: res.format,
@@ -64,7 +64,7 @@ router.post('/protected/uploads', [jwtAuth, upload.single('image')], (req, res) 
             secure_url: res.secure_url
             })
         }).then(post => {
-            console.log('succesfully created');
+            console.log('successfully created');
             res.status(201).json(post.apiRepr());
         }).catch(err => {
             console.error(err);
@@ -72,7 +72,20 @@ router.post('/protected/uploads', [jwtAuth, upload.single('image')], (req, res) 
         });
 });
 
-/* router.get('/protected/:id', jwtAuth, (req, res) => {
+router.delete('/protected/delete/:public_id', jwtAuth, (req, res) => {
+    cloudinary.v2.uploader.destroy(`${req.params.public_id}`);
+
+    return Post
+        .remove({public_id: req.params.public_id})
+        .then(suc => {
+            console.log(`Deleted blog post with id \`${req.params.public_id}\``);
+            res.status(204).end();
+        }).catch(err => {
+            res.status(500).json({message: 'Internal server error'});
+        });
+});
+
+ /*router.get('/protected/:id', jwtAuth, (req, res) => {
     Posts
     .find(req.params.id) //check
     .then(post => {
@@ -91,29 +104,14 @@ router.put('/protected/update/:id', jwtAuth, (req, res) => {
         return res.status(400).send(message);
     }
 
-    const toUpdate = {};
-    const updateableFields = ['title', 'caption'];
-    updateableFields.forEach(field => {
-        if (field in req.body){
-            toUpdate[field] = req.body[field];
-        }
-    });
+    const toUpdate = {'bubbles'};
 
     Posts
-    .findByIdAndUpdate(req.params.id, {$set: toUpdate}, {new: true})
+    .findOneAndUpdate(req.params.id, {$set: toUpdate}, {new: true})
     .then(updatedPost => {
         console.log(`Updating blog post with id \`${req.params.id}\``);
         res.status(204).end();
     }).catch(errr => res.status(500).json({messgae: 'Internal server error'}));
 });
-
-router.delete('/protected/delete/:id', jwtAuth, (req, res) => {
-    Posts
-    .findByIdAndRemove(req.params.id)
-    .then(post => {
-        console.log(`Deleted blog post with id \`${req.params.id}\``);
-         res.status(204).end();
-    }).catch(err => res.status(500).json({message: 'Internal server error'}));
-}); */
-
+*/
 module.exports = {router};

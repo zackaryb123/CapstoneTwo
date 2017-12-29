@@ -80,21 +80,24 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__ajax_js__ = __webpack_require__(6);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__user_index_js__ = __webpack_require__(7);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__post_index_js__ = __webpack_require__(11);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__map_index_js__ = __webpack_require__(15);
 // Auth Urls
 const REGISTER_URL = "http://localhost:8080/users/register";
 const LOGIN_URL = "http://localhost:8080/auth/login";
 const REFRESH_URL = "http://localhost:8080/auth/refresh";
-const INIT_MAP_URL = "http://localhost:8080/map/initial";
 
 // GET Urls
 const GET_POST_URL = "http://localhost:8080/post/protected"; 
 const GET_PROFILE_URL = "http://localhost:8080/users/protected";
-const GET_MAP_URL = "http://localhost:8080/map/protected";
 
 // POST Urls
 const POST_POST_URL = "http://localhost:8080/post/protected/uploads";
 
+// PUT Urls
+
+
+// DELETE Urls
+const DELETE_POST_URL = "http://localhost:8080/post/protected/delete";
+const DELETE_USER_URL = "http://localhost:8080/user/protected/delete";
 
 
 
@@ -104,8 +107,13 @@ const POST_POST_URL = "http://localhost:8080/post/protected/uploads";
 
 
 
+let datamap = new __WEBPACK_IMPORTED_MODULE_0__inital_index_js__["a" /* Datamap */]();
 
 function WatchApplication() {
+    // $(window).on('resize', function() {
+    //     map.resize();
+    // });
+
     // Watch Navbar buttons
     $('ul.navbar-nav').on('click', '.nav-link', event => {
         __WEBPACK_IMPORTED_MODULE_0__inital_index_js__["b" /* watchNavBtns */](event);
@@ -120,16 +128,8 @@ function WatchApplication() {
     $('#registerForm').submit(event => {
         event.preventDefault();
         const userData = __WEBPACK_IMPORTED_MODULE_2__user_index_js__["b" /* data */].getRegisterFormInfo(event);
-        __WEBPACK_IMPORTED_MODULE_1__ajax_js__["b" /* post */](REGISTER_URL, userData,
+        __WEBPACK_IMPORTED_MODULE_1__ajax_js__["c" /* post */](REGISTER_URL, userData,
             (success) => {
-                let container = '#worldMapView';
-                __WEBPACK_IMPORTED_MODULE_1__ajax_js__["b" /* post */](INIT_MAP_URL,
-                    {username: userData.username, datamap: new __WEBPACK_IMPORTED_MODULE_0__inital_index_js__["a" /* Datamap */](container)},
-                    (success) => {
-                        console.log('initialize map successful');
-                    }, (error) => {
-                        console.log(error);
-                });
                 __WEBPACK_IMPORTED_MODULE_2__user_index_js__["a" /* callback */].RegisterSuccess(success);
             }, (error) => {
                 __WEBPACK_IMPORTED_MODULE_2__user_index_js__["a" /* callback */].RegisterError(error);
@@ -139,33 +139,40 @@ function WatchApplication() {
     // Watch login load user profile details, datamap, and post
     $('#loginForm').submit(event => {
         event.preventDefault();
-        __WEBPACK_IMPORTED_MODULE_1__ajax_js__["b" /* post */](LOGIN_URL, __WEBPACK_IMPORTED_MODULE_2__user_index_js__["b" /* data */].getLoginFormCreds(event), 
+        __WEBPACK_IMPORTED_MODULE_1__ajax_js__["c" /* post */](LOGIN_URL, __WEBPACK_IMPORTED_MODULE_2__user_index_js__["b" /* data */].getLoginFormCreds(event), 
             (success) => {
                 const username = $(event.currentTarget).find('input[name=username]').val();
                 localStorage.setItem('currentUser', JSON.stringify({username: username}));
                 localStorage.setItem('JWT', JSON.stringify({token: success.authToken}));
+                const JWT = JSON.parse(localStorage.getItem('JWT')).token;
 
-                const currentUser = JSON.parse(localStorage.getItem('currentUser')).username;
-                const JWT = JSON.parse(localStorage.getItem('JWT')).token; 
+                //let datamap = new init.Datamap();
+                //localStorage.setItem('map', JSON.stringify(datamap));
 
-                __WEBPACK_IMPORTED_MODULE_1__ajax_js__["a" /* getAuth */](`${GET_POST_URL}/${username}`, JWT, username, 
+                __WEBPACK_IMPORTED_MODULE_1__ajax_js__["b" /* getAuth */](`${GET_POST_URL}/${username}`, JWT, 
                     (success) => {
+                        if (success.length > 0){
+                            datamap.instance.bubbles(success,{
+                                popupTemplate: (geo, data) => {
+                                    return ['<div class="hoverinfo">' + data.title,
+                                        '<br/><image width="100px" src="' + data.secure_url + '"/>' + '',
+                                        /*Caption: ' + data.caption + '',
+                                        '<br/>longitude: ' + data.longitude + '',
+                                        '<br/>Latitude: ' + data.latitude + '',
+                                        '<br/>Date' + data.created_at + '',*/
+                                        '</div>'].join('');
+                                }
+                            });
+                        }
                         __WEBPACK_IMPORTED_MODULE_3__post_index_js__["b" /* render */].PostResults(success);
-                }, (error) => {
-                    console.log(error);
-                }, );
-                __WEBPACK_IMPORTED_MODULE_1__ajax_js__["a" /* getAuth */](`${GET_PROFILE_URL}/${username}`, JWT, username, 
+                    }, (error) => {
+                        console.log(error);
+                });
+                __WEBPACK_IMPORTED_MODULE_1__ajax_js__["b" /* getAuth */](`${GET_PROFILE_URL}/${username}`, JWT, 
                     (success) =>{
                         __WEBPACK_IMPORTED_MODULE_2__user_index_js__["c" /* render */].ProfileResults(success);
-                }, (error) =>{
-                    console.log(error);
-                });
-                __WEBPACK_IMPORTED_MODULE_1__ajax_js__["a" /* getAuth */](`${GET_MAP_URL}/${username}`, JWT, username, 
-                    (success) => {
-                        new __WEBPACK_IMPORTED_MODULE_0__inital_index_js__["a" /* Datamap */]('#worldMapView');
-                        __WEBPACK_IMPORTED_MODULE_4__map_index_js__["a" /* render */].MapResults(success);
-                }, (error) => {
-                    console.log(error);
+                    }, (error) =>{
+                        console.log(error);
                 });
                 __WEBPACK_IMPORTED_MODULE_2__user_index_js__["a" /* callback */].LoginSuccess(username);
             }, (error) => {
@@ -176,7 +183,7 @@ function WatchApplication() {
     // Watch refresh authentication button
     $('#refreshJWT').click(event => {
         let JWT = JSON.parse(localStorage.getItem('JWT')).token;
-        __WEBPACK_IMPORTED_MODULE_1__ajax_js__["c" /* postAuth */](REFRESH_URL, JWT, {}, 
+        __WEBPACK_IMPORTED_MODULE_1__ajax_js__["d" /* postAuth */](REFRESH_URL, JWT, {}, 
             (success) => {
                 localStorage.setItem('JWT', JSON.stringify({token: success.authToken}));
                 __WEBPACK_IMPORTED_MODULE_2__user_index_js__["a" /* callback */].RefreshSuccess(success);
@@ -185,34 +192,92 @@ function WatchApplication() {
             });
     });
 
+    $('#Delete-Post').click(event => {
+        let post_id = $('#Post-ID').text();
+        let JWT = JSON.parse(localStorage.getItem('JWT')).token;
+        let username = JSON.parse(localStorage.getItem('currentUser')).username;
+        //let datamap = JSON.parse(localStorage.getItem('map'));
+        //let datamap = new init.Datamap();
+        __WEBPACK_IMPORTED_MODULE_1__ajax_js__["a" /* deleteAuth */](`${DELETE_POST_URL}/${post_id}`, JWT,
+           (success) => {
+                __WEBPACK_IMPORTED_MODULE_1__ajax_js__["b" /* getAuth */](`${GET_POST_URL}/${username}`, JWT,
+                    (success) => {
+                        if (success.length > 0) {
+                            //let datamap = new init.Datamap();
+                            datamap.instance.bubbles(success, {
+                                popupTemplate: (geo, data) => {
+                                    return ['<div class="hoverinfo">' + data.title,
+                                        '<br/><image width="50px" src="' + data.secure_url + '"/>' + '',
+                                        /*Caption: ' + data.caption + '',
+                                        '<br/>longitude: ' + data.longitude + '',
+                                        '<br/>Latitude: ' + data.latitude + '',
+                                        '<br/>Date' + data.created_at + '',*/
+                                        '</div>'].join('');
+                                }
+                            });
+                        }
+                        __WEBPACK_IMPORTED_MODULE_3__post_index_js__["b" /* render */].PostResults(success);
+                    },  (error) => {
+                        console.log(error);
+                    });
+       },
+           (error) => {
+                console.log(error);
+           });
+    });
+
     $('#uploadBtn').on('click', () => {
         navigator.geolocation.getCurrentPosition(function(pos){
             localStorage.setItem('geo', JSON.stringify({long: pos.coords.longitude, lat: pos.coords.latitude}));
         });
-    })
+    });
+
     $('#Upload-Form').submit((event) => {
         event.preventDefault();
 
         let latitude = JSON.parse(localStorage.getItem('geo')).lat;
         let longitude = JSON.parse(localStorage.getItem('geo')).long;
+        console.log(latitude);
         let JWT = JSON.parse(localStorage.getItem('JWT')).token;
         let username = JSON.parse(localStorage.getItem('currentUser')).username;
+        //let datamap = JSON.parse(localStorage.getItem('map'));
 
-        let data = new FormData($('#Upload-Form')[0]);
-        data.set('longitude', longitude);
-        data.set('latitude', latitude);
-        data.set('username', username);
+        let formData = new FormData($('#Upload-Form')[0]);
+        formData.set('longitude', longitude);
+        formData.set('latitude', latitude);
+        formData.set('username', username);
 
-        __WEBPACK_IMPORTED_MODULE_1__ajax_js__["d" /* postAuthFile */](POST_POST_URL, JWT, data,
+        __WEBPACK_IMPORTED_MODULE_1__ajax_js__["e" /* postAuthFile */](POST_POST_URL, JWT, formData,
         (success) =>{
+            //let datamap = new init.Datamap();
+            let bubble = {
+                title: success.title,
+                longitude: success.longitude,
+                latitude: success.latitude,
+                radius: success.radius,
+                created_at: success.created_at
+            };
+            __WEBPACK_IMPORTED_MODULE_1__ajax_js__["b" /* getAuth */](`${GET_POST_URL}/${username}`, JWT,
+                (success) => {
+                    if (success.length > 0){
+                        //let datamap = new init.Datamap();
+                        datamap.instance.bubbles(success,{
+                            popupTemplate: (geo, data) => {
+                                return ['<div class="hoverinfo">' + data.title,
+                                    '<br/><image width="100px" src="' + data.secure_url + '"/>' + '',
+                                    /*Caption: ' + data.caption + '',
+                                    '<br/>longitude: ' + data.longitude + '',
+                                    '<br/>Latitude: ' + data.latitude + '',
+                                    '<br/>Date' + data.created_at + '',*/
+                                    '</div>'].join('');
+                            }
+                        });
+                    }
+                    __WEBPACK_IMPORTED_MODULE_3__post_index_js__["b" /* render */].PostResults(success);
+                }, (error) => {
+                    console.log(error);
+                });
             __WEBPACK_IMPORTED_MODULE_3__post_index_js__["a" /* callback */].UploadSuccess(success);
-            let username = JSON.parse(localStorage.getItem('currentUser')).username;
-            __WEBPACK_IMPORTED_MODULE_1__ajax_js__["a" /* getAuth */](`${GET_POST_URL}/${username}`, JWT, username, 
-            (success) =>{
-                __WEBPACK_IMPORTED_MODULE_3__post_index_js__["b" /* render */].PostResults(success);
-            }, (error) =>{
-                console.log(error);
-            });
         }, (error) => {
             console.log(error);
         });
@@ -220,7 +285,7 @@ function WatchApplication() {
 
     $('#pixFeed').on('click', '.post-card', (event) => {
         __WEBPACK_IMPORTED_MODULE_3__post_index_js__["a" /* callback */].OnPostClick(event);
-    })
+    });
 
     // Watch sign out buttons
     $('#signoutBtn').click((event) => {
@@ -254,13 +319,14 @@ $(WatchApplication);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__zoom_js__ = __webpack_require__(4);
 
 
-function Datamap(container) {
-    this.container = $(container);
+function Datamap() {
+    this.container = $('#worldMapView');
     this.instance = new Datamaps({
-    scope: 'world',
-    element: this.container.get(0),
-    projection: 'mercator',
-    done: this._handleMapReady.bind(this)
+        scope: 'world',
+        element: this.container.get(0),
+        projection: 'mercator',
+        done: this._handleMapReady.bind(this),
+        fills: {defaultFill: '#4CAF50'}
     });
 }
 
@@ -508,10 +574,12 @@ function watchNavBtns(event) {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony export (immutable) */ __webpack_exports__["b"] = post;
-/* harmony export (immutable) */ __webpack_exports__["c"] = postAuth;
-/* harmony export (immutable) */ __webpack_exports__["d"] = postAuthFile;
-/* harmony export (immutable) */ __webpack_exports__["a"] = getAuth;
+/* harmony export (immutable) */ __webpack_exports__["c"] = post;
+/* harmony export (immutable) */ __webpack_exports__["d"] = postAuth;
+/* harmony export (immutable) */ __webpack_exports__["e"] = postAuthFile;
+/* harmony export (immutable) */ __webpack_exports__["b"] = getAuth;
+/* harmony export (immutable) */ __webpack_exports__["a"] = deleteAuth;
+/* unused harmony export putAuth */
 function post(URL, data, suc, err) {
     const settings = {
         url: URL,
@@ -560,19 +628,47 @@ function postAuthFile(URL, token, data, suc, err) {
     $.ajax(settings);
 }
 
-function getAuth(URL, token, data, suc, err) {
+function getAuth(URL, token, suc, err) {
     const settings = {
         url: URL,
         headers:{
             "Authorization": `Bearer ${token}`,
             "Content-Type": 'application/json'
         },
-        data: JSON.stringify(data),
         dataType: 'json',
         type: 'GET',
         success: suc,
         error: err
     };
+    $.ajax(settings);
+}
+
+function deleteAuth(URL, token, suc, err) {
+    const settings ={
+        url: URL,
+        headers: {
+            "Authorization": `Bearer ${token}`,
+            "Content-Type": 'application/json'
+        },
+        type: 'DELETE',
+        success: suc,
+        error: err
+    }
+    $.ajax(settings);
+}
+
+function putAuth(URL, token, data, suc, err) {
+    const settings ={
+        url: URL,
+        headers: {
+            "Authorization": `Bearer ${token}`,
+            "Content-Type": 'application/json'
+        },
+        data: JSON.stringify(data),
+        type: 'PUT',
+        success: suc,
+        error: err
+    }
     $.ajax(settings);
 }
 
@@ -756,7 +852,7 @@ function PostResults(render) {
                 <image height="260" class="ui image" src="${post.secure_url}" />
                 <div class="content">
                     <div class="header">${post.title}</div>
-                    <div class="meta">${post.caption}</div>
+                    <div class="caption">${post.caption}</div>
                     <div class=longitude>${post.longitude}</div>
                     <div class="latitude">${post.latitude}</div>
                     <div class="date">${post.created_at}</div>
@@ -805,55 +901,24 @@ function UploadSuccess(suc) {
 }
 
 function OnPostClick(event) {
-    let post_id = $(event.currentTarget).attr('id');
-    console.log(post_id);
-
     let img_url = $(event.currentTarget).find('img').attr('src');
     console.log(img_url);
 
-    let title = $(event.currentTarget).find('div .content > .header').text;
-    let caption = $(event.currentTarget).find('div .content > .meta').text;
-    let longitude = $(event.currentTarget).find('div .content > .longitude').text;
-    let latitude = $(event.currentTarget).find('div .content > .latitude').text;
-    let date = $(event.currentTarget).find('div .content > .date').text;
+    let title = $(event.currentTarget).find('.header').text();
+    let caption = $(event.currentTarget).find('.caption').text();
+    let longitude = $(event.currentTarget).find('.longitude').text();
+    let latitude = $(event.currentTarget).find('.latitude').text();
+    let date = $(event.currentTarget).find('.date').text();
+    let public_id = $(event.currentTarget).attr('id');
 
-    console.log(`t: ${title} c: ${caption} long: ${longitude} lat: ${latitude} date: ${date}`);
-
+    $('#Post-ID').text(public_id);
     $('#Post-Card img').attr('src', img_url);
-    //Set image rem to 30
+    $('#header').text(title);
+    $('#caption').text(caption);
+    $('#longitude').text(longitude);
+    $('#latitude').text(latitude);
+    $('#date').text(date);
 }
-
-/***/ }),
-/* 15 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__render_js__ = __webpack_require__(16);
-/* harmony reexport (module object) */ __webpack_require__.d(__webpack_exports__, "a", function() { return __WEBPACK_IMPORTED_MODULE_0__render_js__; });
-
-
-//import * as callback from './render.js';
-
-//import * as data from './data.js';
-
-
-
-/***/ }),
-/* 16 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony export (immutable) */ __webpack_exports__["MapResults"] = MapResults;
-function MapResults(render) {
-    //debug
-    console.log('mapp successfully rendered');
-}
-
-
-
-/// /HOW TO LOAD THE MAP OVER AND OVER
-
 
 /***/ })
 /******/ ]);

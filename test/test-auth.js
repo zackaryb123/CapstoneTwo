@@ -30,18 +30,6 @@ describe('Register endpoint', function() {
     return closeServer();
   });
 
-/*   beforeEach(function() {
-    return User.hashPassword(password).then(password =>
-      User.create({
-        username,
-        password,
-        firstName,
-        lastName,
-        email
-      })
-    );
-  }); */
-
   afterEach(function () {
     return User.remove({username: 'username'});
   });
@@ -138,7 +126,7 @@ describe('Auth endpoints', function () {
   });
 
   afterEach(function () {
-    return User.remove({});
+    return User.deleteOne({username: 'username'});
   });
 
   describe('/auth/login', function () {

@@ -7,7 +7,7 @@ export function PostResults(render) {
                 <image height="260" class="ui image" src="${post.secure_url}" />
                 <div class="content">
                     <div class="header">${post.title}</div>
-                    <div class="meta">${post.caption}</div>
+                    <div class="caption">${post.caption}</div>
                     <div class=longitude>${post.longitude}</div>
                     <div class="latitude">${post.latitude}</div>
                     <div class="date">${post.created_at}</div>

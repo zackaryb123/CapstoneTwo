@@ -26,10 +26,10 @@
                     <a id="globeBtn" class="nav-link" href="#">Globe<span class="sr-only"></span></a>
                 </li>
             </ul>
-                <form class="form-inline my-2 mr-auto my-lg-0">
-                    <input class="form-control mr-sm-2" type="search" placeholder="Search">
-                    <button class="btn btn-outline-info my-2 my-sm-0" type="submit">Search</button>
-                </form>
+<!--            <form class="form-inline my-2 mr-auto my-lg-0">
+                <input class="form-control mr-sm-2" type="search" placeholder="Search">
+                <button class="btn btn-outline-info my-2 my-sm-0" type="submit">Search</button>
+            </form>-->
             <ul class="navbar-nav mt-lg-0">
                 <li class="nav-item">
                     <button id="uploadBtn" type="button" class="btn btn-outline-info" data-toggle="modal" data-target="#Upload-Page">Upload</button>
@@ -100,20 +100,25 @@
                 <div class="post container">
                     <div class="row">
                         <div class="col">
-                            <div id="Post-Card" class="card" style="width: 20rem;">
+                            <div id="Post-Card" class="card" style="width: 31.1rem;">
                                 <img class="card-img-top" src="/" alt="Card image cap">
                             </div>
                         </div>
                         <div class="col">
+                            <span id="Post-ID" hidden></span>
                             <div id="Post-Content" class="card-body">
                                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                         <span aria-hidden="true">×</span>
                                 </button>
-                                <h4 class="card-title"></h4>
-                                <p class="card-text"></p>
-                                <span class="card-long"></span><br><span class="card-lat"></span>
-                                <p class="card-date"></p>
+                                <div class="content">
+                                    <div id="header"></div>
+                                    <div id="caption"></div>
+                                    <div id="longitude"></div>
+                                    <div id="latitude"></div>
+                                    <div id="date"></div>
+                                </div>
                             </div>
+                            <button id="Delete-Post" type="button" data-dismiss="modal" aria-label="Close" class="btn btn-danger">Delete</button>
                         </div>
                     </div>
                 </div>

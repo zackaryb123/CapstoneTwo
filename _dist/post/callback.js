@@ -9,20 +9,21 @@ export function UploadSuccess(suc) {
 }
 
 export function OnPostClick(event) {
-    let post_id = $(event.currentTarget).attr('id');
-    console.log(post_id);
-
     let img_url = $(event.currentTarget).find('img').attr('src');
     console.log(img_url);
 
-    let title = $(event.currentTarget).find('div .content > .header').text;
-    let caption = $(event.currentTarget).find('div .content > .meta').text;
-    let longitude = $(event.currentTarget).find('div .content > .longitude').text;
-    let latitude = $(event.currentTarget).find('div .content > .latitude').text;
-    let date = $(event.currentTarget).find('div .content > .date').text;
+    let title = $(event.currentTarget).find('.header').text();
+    let caption = $(event.currentTarget).find('.caption').text();
+    let longitude = $(event.currentTarget).find('.longitude').text();
+    let latitude = $(event.currentTarget).find('.latitude').text();
+    let date = $(event.currentTarget).find('.date').text();
+    let public_id = $(event.currentTarget).attr('id');
 
-    console.log(`t: ${title} c: ${caption} long: ${longitude} lat: ${latitude} date: ${date}`);
-
+    $('#Post-ID').text(public_id);
     $('#Post-Card img').attr('src', img_url);
-    //Set image rem to 30
+    $('#header').text(title);
+    $('#caption').text(caption);
+    $('#longitude').text(longitude);
+    $('#latitude').text(latitude);
+    $('#date').text(date);
 }

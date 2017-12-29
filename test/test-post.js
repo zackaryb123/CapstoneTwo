@@ -1,156 +1,162 @@
-// 'use strict';
-// global.DATABASE_URL = 'mongodb://localhost/jwt-auth-demo-test';
-// const chai = require('chai');
-// const chaiHttp = require('chai-http');
-// const jwt = require('jsonwebtoken');
+'use strict';
+global.DATABASE_URL = 'mongodb://localhost/itracku-app-test';
+const chai = require('chai');
+const chaiHttp = require('chai-http');
+const jwt = require('jsonwebtoken');
+const FormData = require('form-data');
+const now = require('date-now');
 
-// const {app, runServer, closeServer} = require('../server');
-// const {User} = require('../users');
-// const {JWT_SECRET} = require('../config');
+const {app, runServer, closeServer} = require('../server');
+const {User} = require('../svr/users');
+const {Post} = require('../svr/post');
+const {JWT_SECRET} = require('../svr/config');
 
-// const expect = chai.expect;
+const expect = chai.expect;
 
-// // This let's us make HTTP requests
-// // in our tests.
-// // see: https://github.com/chaijs/chai-http
-// chai.use(chaiHttp);
+chai.use(chaiHttp);
 
-// describe('Protected endpoint', function() {
-//   const username = 'exampleUser';
-//   const password = 'examplePass';
-//   const firstName = 'Example';
-//   const lastName = 'User';
+describe('Protected endpoint', function() {
+  const username = 'username';
+  const password = 'password123';
+  const firstName = 'First';
+  const lastName = 'Last';
+  const email = 'example@email.com';
+  const avatar = 'img/avatar.png';
+  const bio = 'Edit to add personal biography.'
 
-//   before(function() {
-//     return runServer();
-//   });
+  const public_id = '123abc456def789';
+  const title = 'Title';
+  const caption = 'Caption';
+  const longitude = 33.00;
+  const latitude =  -84.00;
+  const signature =  'signature';
+  const width = 200;
+  const height = 200;
+  const format = 'png';
+  const created_at = Date.now();
+  const bytes = 2000;
+  const url = 'http://res.cloudinary.com/diygdnbei/image/upload/v1513995404/sample.jpg';
+  const secure_url = 'http://res.cloudinary.com/diygdnbei/image/upload/v1513995404/sample.jpg';
 
-//   after(function() {
-//     return closeServer();
-//   });
+  before(function() {
+    return runServer();
+  });
 
-//   beforeEach(function() {
-//     return User.hashPassword(password).then(password =>
-//       User.create({
-//         username,
-//         password,
-//         firstName,
-//         lastName
-//       })
-//     );
-//   });
+  after(function() {
+    return closeServer();
+  });
 
-//   afterEach(function() {
-//     return User.remove({});
-//   });
+  beforeEach(function() {
+    return User.hashPassword(password).then(password =>
+      User.create({
+        username,
+        password,
+        firstName,
+        lastName,
+        email,
+        bio,
+        avatar
+      }))
+  });
 
-//   describe('/api/protected', function() {
-//     it('Should reject requests with no credentials', function() {
-//       return chai
-//         .request(app)
-//         .get('/api/protected')
-//         .then(() =>
-//           expect.fail(null, null, 'Request should not succeed')
-//         )
-//         .catch(err => {
-//           if (err instanceof chai.AssertionError) {
-//             throw err;
-//           }
+  afterEach(function() {
+    return User.deleteOne({username: 'username'})
+    .then(Post.remove({username: 'username'}));
+  });
 
-//           const res = err.response;
-//           expect(res).to.have.status(401);
-//         });
-//     });
+  describe('/post/protected/uploads', function() {
+    it('Should reject request with no username in request', function() {
+      const data = new FormData();
+      data.append('title', 'Title-test');
+      data.append('caption', 'caption-test');
+      data.append('longitude', 33.00);
+      data.append('latitude', -84.00);
+      data.append('image', './public/img/avatar.png');
+      data.append('username', username);
+      const token = jwt.sign(
+        {
+          user: {
+            username,
+            password,
+            firstName,
+            lastName,
+            email,
+            bio,
+            avatar
+          }
+        },
+        JWT_SECRET,
+        {
+          algorithm: 'HS256',
+          subject: username,
+          expiresIn: '7d'
+        }
+      );
 
-//     it('Should reject requests with an invalid token', function() {
-//       const token = jwt.sign(
-//         {
-//           username,
-//           firstName,
-//           lastName
-//         },
-//         'wrongSecret',
-//         {
-//           algorithm: 'HS256',
-//           expiresIn: '7d'
-//         }
-//       );
+      return chai
+        .request(app)
+        .post('/post/protected/uploads')
+        .type('form')
+        .set('authorization', `Bearer ${token}`)
+        .send(data)
+        .then(function() { 
+          expect.fail(null, null, 'Request should fail');
+        }).catch(function (err) {
+            if( err instanceof chai.AssertionError) {
+            throw err;
+        }
+        const res = err.response;
+        expect(res).to.have.status(422);
+      });
+    });
+  });
 
-//       return chai
-//         .request(app)
-//         .get('/api/protected')
-//         .set('Authorization', `Bearer ${token}`)
-//         .then(() =>
-//           expect.fail(null, null, 'Request should not succeed')
-//         )
-//         .catch(err => {
-//           if (err instanceof chai.AssertionError) {
-//             throw err;
-//           }
+  
+  describe('/post/protected/uploads', function() {
+    it('Should reject requests with no file path', function() {
+      const data = new FormData();
+      data.append('title', 'Title-test');
+      data.append('caption', 'caption-test');
+      data.append('longitude', 33.00);
+      data.append('latitude', -84.00);
+      data.append('username', username);
+      const token = jwt.sign(
+        {
+          user: {
+            username,
+            password,
+            firstName,
+            lastName,
+            email,
+            bio,
+            avatar
+          }
+        },
+        JWT_SECRET,
+        {
+          algorithm: 'HS256',
+          subject: username,
+          expiresIn: '7d'
+        }
+      );
 
-//           const res = err.response;
-//           expect(res).to.have.status(401);
-//         });
-//     });
-//     it('Should reject requests with an expired token', function() {
-//       const token = jwt.sign(
-//         {
-//           user: {
-//             username,
-//             firstName,
-//             lastName
-//           },
-//           exp: Math.floor(Date.now() / 1000) - 10 // Expired ten seconds ago
-//         },
-//         JWT_SECRET,
-//         {
-//           algorithm: 'HS256',
-//           subject: username
-//         }
-//       );
-
-//       return chai
-//         .request(app)
-//         .get('/api/protected')
-//         .set('authorization', `Bearer ${token}`)
-//         .then(() =>
-//           expect.fail(null, null, 'Request should not succeed')
-//         )
-//         .catch(err => {
-//           if (err instanceof chai.AssertionError) {
-//             throw err;
-//           }
-
-//           const res = err.response;
-//           expect(res).to.have.status(401);
-//         });
-//     });
-//     it('Should send protected data', function() {
-//       const token = jwt.sign(
-//         {
-//           user: {
-//             username,
-//             firstName,
-//             lastName
-//           }
-//         },
-//         JWT_SECRET,
-//         {
-//           algorithm: 'HS256',
-//           subject: username,
-//           expiresIn: '7d'
-//         }
-//       );
-
-//       return chai
-//         .request(app)
-//         .get('/api/protected')
-//         .set('authorization', `Bearer ${token}`)
-//         .then(res => {
-//           expect(res).to.have.status(200);
-//           expect(res.body).to.be.an('object');
-//           expect(res.body.data).to.equal('rosebud');
-//         });
-//     });
-//   });
-// });
+      return chai
+        .request(app)
+        .post('/post/protected/uploads')
+        .query({username: username})
+        .type('form')
+        .set('authorization', `Bearer ${token}`)
+        .send(data)
+        .then(function(){
+          expect.fail(null, null, 'Request should not succeed')
+        })
+        .catch(function(err) {
+          if (err instanceof chai.AssertionError) {
+            throw err;
+          }
+          const res = err.response;
+          expect(res).to.have.status(422);
+        });
+    });
+  });
+});

@@ -46,18 +46,46 @@ export function postAuthFile(URL, token, data, suc, err) {
     $.ajax(settings);
 }
 
-export function getAuth(URL, token, data, suc, err) {
+export function getAuth(URL, token, suc, err) {
     const settings = {
         url: URL,
         headers:{
             "Authorization": `Bearer ${token}`,
             "Content-Type": 'application/json'
         },
-        data: JSON.stringify(data),
         dataType: 'json',
         type: 'GET',
         success: suc,
         error: err
     };
+    $.ajax(settings);
+}
+
+export function deleteAuth(URL, token, suc, err) {
+    const settings ={
+        url: URL,
+        headers: {
+            "Authorization": `Bearer ${token}`,
+            "Content-Type": 'application/json'
+        },
+        type: 'DELETE',
+        success: suc,
+        error: err
+    }
+    $.ajax(settings);
+}
+
+export function putAuth(URL, token, data, suc, err) {
+    const settings ={
+        url: URL,
+        headers: {
+            "Authorization": `Bearer ${token}`,
+            "Content-Type": 'application/json'
+        },
+        data: JSON.stringify(data),
+        type: 'PUT',
+        success: suc,
+        error: err
+    }
     $.ajax(settings);
 }

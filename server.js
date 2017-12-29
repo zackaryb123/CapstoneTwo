@@ -10,7 +10,7 @@ const { PORT, DATABASE_URL } = require('./svr/config');
 const { router: usersRouter } = require('./svr/users');
 const { router: authRouter, localStrategy, jwtStrategy } = require('./svr/auth');
 const { router: postRouter } = require('./svr/post');
-const { router: mapRouter } = require('./svr/map');
+//const { router: mapRouter } = require('./svr/map');
 
 mongoose.Promise = global.Promise;
 
@@ -42,7 +42,7 @@ passport.use(jwtStrategy);
 app.use('/users/', usersRouter);
 app.use('/auth/', authRouter);
 app.use('/post/', postRouter);
-app.use('/map/', mapRouter);
+//app.use('/map/', mapRouter);
 
 app.use('*', (req, res) => {
     return res.status(404).json({ message: 'Not Found' });
