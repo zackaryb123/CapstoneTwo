@@ -93,11 +93,11 @@ const GET_PROFILE_URL = "http://localhost:8080/users/protected";
 const POST_POST_URL = "http://localhost:8080/post/protected/uploads";
 
 // PUT Urls
-
+const PUT_PROFILE_URL = "http://localhost:8080/users/protected"
 
 // DELETE Urls
 const DELETE_POST_URL = "http://localhost:8080/post/protected/delete";
-const DELETE_USER_URL = "http://localhost:8080/user/protected/delete";
+//const DELETE_PROFILE_URL = "http://localhost:8080/user/protected/delete";
 
 
 
@@ -146,9 +146,6 @@ function WatchApplication() {
                 localStorage.setItem('JWT', JSON.stringify({token: success.authToken}));
                 const JWT = JSON.parse(localStorage.getItem('JWT')).token;
 
-                //let datamap = new init.Datamap();
-                //localStorage.setItem('map', JSON.stringify(datamap));
-
                 __WEBPACK_IMPORTED_MODULE_1__ajax_js__["b" /* getAuth */](`${GET_POST_URL}/${username}`, JWT, 
                     (success) => {
                         if (success.length > 0){
@@ -156,10 +153,6 @@ function WatchApplication() {
                                 popupTemplate: (geo, data) => {
                                     return ['<div class="hoverinfo">' + data.title,
                                         '<br/><image width="100px" src="' + data.secure_url + '"/>' + '',
-                                        /*Caption: ' + data.caption + '',
-                                        '<br/>longitude: ' + data.longitude + '',
-                                        '<br/>Latitude: ' + data.latitude + '',
-                                        '<br/>Date' + data.created_at + '',*/
                                         '</div>'].join('');
                                 }
                             });
@@ -181,7 +174,7 @@ function WatchApplication() {
     });
 
     // Watch refresh authentication button
-    $('#refreshJWT').click(event => {
+    $('#refreshJWT').click(() => {
         let JWT = JSON.parse(localStorage.getItem('JWT')).token;
         __WEBPACK_IMPORTED_MODULE_1__ajax_js__["d" /* postAuth */](REFRESH_URL, JWT, {}, 
             (success) => {
@@ -192,26 +185,19 @@ function WatchApplication() {
             });
     });
 
-    $('#Delete-Post').click(event => {
+    $('#Delete-Post').click(() => {
         let post_id = $('#Post-ID').text();
         let JWT = JSON.parse(localStorage.getItem('JWT')).token;
         let username = JSON.parse(localStorage.getItem('currentUser')).username;
-        //let datamap = JSON.parse(localStorage.getItem('map'));
-        //let datamap = new init.Datamap();
         __WEBPACK_IMPORTED_MODULE_1__ajax_js__["a" /* deleteAuth */](`${DELETE_POST_URL}/${post_id}`, JWT,
            (success) => {
                 __WEBPACK_IMPORTED_MODULE_1__ajax_js__["b" /* getAuth */](`${GET_POST_URL}/${username}`, JWT,
                     (success) => {
                         if (success.length > 0) {
-                            //let datamap = new init.Datamap();
                             datamap.instance.bubbles(success, {
                                 popupTemplate: (geo, data) => {
                                     return ['<div class="hoverinfo">' + data.title,
                                         '<br/><image width="50px" src="' + data.secure_url + '"/>' + '',
-                                        /*Caption: ' + data.caption + '',
-                                        '<br/>longitude: ' + data.longitude + '',
-                                        '<br/>Latitude: ' + data.latitude + '',
-                                        '<br/>Date' + data.created_at + '',*/
                                         '</div>'].join('');
                                 }
                             });
@@ -226,13 +212,13 @@ function WatchApplication() {
            });
     });
 
-    $('#uploadBtn').on('click', () => {
+    $('#uploadBtn').click(() => {
         navigator.geolocation.getCurrentPosition(function(pos){
             localStorage.setItem('geo', JSON.stringify({long: pos.coords.longitude, lat: pos.coords.latitude}));
         });
     });
 
-    $('#Upload-Form').submit((event) => {
+    $('#Upload-Form').submit(event => {
         event.preventDefault();
 
         let latitude = JSON.parse(localStorage.getItem('geo')).lat;
@@ -240,7 +226,6 @@ function WatchApplication() {
         console.log(latitude);
         let JWT = JSON.parse(localStorage.getItem('JWT')).token;
         let username = JSON.parse(localStorage.getItem('currentUser')).username;
-        //let datamap = JSON.parse(localStorage.getItem('map'));
 
         let formData = new FormData($('#Upload-Form')[0]);
         formData.set('longitude', longitude);
@@ -248,27 +233,14 @@ function WatchApplication() {
         formData.set('username', username);
 
         __WEBPACK_IMPORTED_MODULE_1__ajax_js__["e" /* postAuthFile */](POST_POST_URL, JWT, formData,
-        (success) =>{
-            //let datamap = new init.Datamap();
-            let bubble = {
-                title: success.title,
-                longitude: success.longitude,
-                latitude: success.latitude,
-                radius: success.radius,
-                created_at: success.created_at
-            };
+        (success) => {
             __WEBPACK_IMPORTED_MODULE_1__ajax_js__["b" /* getAuth */](`${GET_POST_URL}/${username}`, JWT,
                 (success) => {
                     if (success.length > 0){
-                        //let datamap = new init.Datamap();
                         datamap.instance.bubbles(success,{
                             popupTemplate: (geo, data) => {
                                 return ['<div class="hoverinfo">' + data.title,
                                     '<br/><image width="100px" src="' + data.secure_url + '"/>' + '',
-                                    /*Caption: ' + data.caption + '',
-                                    '<br/>longitude: ' + data.longitude + '',
-                                    '<br/>Latitude: ' + data.latitude + '',
-                                    '<br/>Date' + data.created_at + '',*/
                                     '</div>'].join('');
                             }
                         });
@@ -285,6 +257,28 @@ function WatchApplication() {
 
     $('#pixFeed').on('click', '.post-card', (event) => {
         __WEBPACK_IMPORTED_MODULE_3__post_index_js__["a" /* callback */].OnPostClick(event);
+    });
+
+    $('#Update-Form').submit(event => {
+        event.preventDefault();
+        let JWT = JSON.parse(localStorage.getItem('JWT')).token;
+        let username = JSON.parse(localStorage.getItem('currentUser')).username;
+        let formData = new FormData($('#Update-Form')[0]);
+        formData.set('username', username);
+
+        __WEBPACK_IMPORTED_MODULE_1__ajax_js__["f" /* putAuthFile */](`${PUT_PROFILE_URL}/${username}`, JWT, formData,
+            (success) =>{
+                console.log(success);
+                __WEBPACK_IMPORTED_MODULE_1__ajax_js__["b" /* getAuth */](`${GET_PROFILE_URL}/${username}`, JWT,
+                    (success) =>{
+                        console.log(success);
+                        __WEBPACK_IMPORTED_MODULE_2__user_index_js__["c" /* render */].ProfileResults(success);
+                    }, (error) =>{
+                        console.log(error);
+                    });
+            }, (error) => {
+                console.log(error);
+            });
     });
 
     // Watch sign out buttons
@@ -579,7 +573,7 @@ function watchNavBtns(event) {
 /* harmony export (immutable) */ __webpack_exports__["e"] = postAuthFile;
 /* harmony export (immutable) */ __webpack_exports__["b"] = getAuth;
 /* harmony export (immutable) */ __webpack_exports__["a"] = deleteAuth;
-/* unused harmony export putAuth */
+/* harmony export (immutable) */ __webpack_exports__["f"] = putAuthFile;
 function post(URL, data, suc, err) {
     const settings = {
         url: URL,
@@ -657,14 +651,15 @@ function deleteAuth(URL, token, suc, err) {
     $.ajax(settings);
 }
 
-function putAuth(URL, token, data, suc, err) {
+function putAuthFile(URL, token, data, suc, err) {
     const settings ={
         url: URL,
         headers: {
-            "Authorization": `Bearer ${token}`,
-            "Content-Type": 'application/json'
+            "Authorization": `Bearer ${token}`
         },
-        data: JSON.stringify(data),
+        contentType: false,
+        processData: false,
+        data: data,
         type: 'PUT',
         success: suc,
         error: err

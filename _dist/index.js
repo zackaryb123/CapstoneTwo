@@ -11,11 +11,11 @@ const GET_PROFILE_URL = "http://localhost:8080/users/protected";
 const POST_POST_URL = "http://localhost:8080/post/protected/uploads";
 
 // PUT Urls
-
+const PUT_PROFILE_URL = "http://localhost:8080/users/protected"
 
 // DELETE Urls
 const DELETE_POST_URL = "http://localhost:8080/post/protected/delete";
-//const DELETE_USER_URL = "http://localhost:8080/user/protected/delete";
+//const DELETE_PROFILE_URL = "http://localhost:8080/user/protected/delete";
 
 import * as init from './inital/index.js';
 
@@ -92,7 +92,7 @@ function WatchApplication() {
     });
 
     // Watch refresh authentication button
-    $('#refreshJWT').click(event => {
+    $('#refreshJWT').click(() => {
         let JWT = JSON.parse(localStorage.getItem('JWT')).token;
         ajax.postAuth(REFRESH_URL, JWT, {}, 
             (success) => {
@@ -103,7 +103,7 @@ function WatchApplication() {
             });
     });
 
-    $('#Delete-Post').click(event => {
+    $('#Delete-Post').click(() => {
         let post_id = $('#Post-ID').text();
         let JWT = JSON.parse(localStorage.getItem('JWT')).token;
         let username = JSON.parse(localStorage.getItem('currentUser')).username;
@@ -130,13 +130,13 @@ function WatchApplication() {
            });
     });
 
-    $('#uploadBtn').on('click', () => {
+    $('#uploadBtn').click(() => {
         navigator.geolocation.getCurrentPosition(function(pos){
             localStorage.setItem('geo', JSON.stringify({long: pos.coords.longitude, lat: pos.coords.latitude}));
         });
     });
 
-    $('#Upload-Form').submit((event) => {
+    $('#Upload-Form').submit(event => {
         event.preventDefault();
 
         let latitude = JSON.parse(localStorage.getItem('geo')).lat;
@@ -151,14 +151,7 @@ function WatchApplication() {
         formData.set('username', username);
 
         ajax.postAuthFile(POST_POST_URL, JWT, formData,
-        (success) =>{
-            let bubble = {
-                title: success.title,
-                longitude: success.longitude,
-                latitude: success.latitude,
-                radius: success.radius,
-                created_at: success.created_at
-            };
+        (success) => {
             ajax.getAuth(`${GET_POST_URL}/${username}`, JWT,
                 (success) => {
                     if (success.length > 0){
@@ -182,6 +175,28 @@ function WatchApplication() {
 
     $('#pixFeed').on('click', '.post-card', (event) => {
         post.callback.OnPostClick(event);
+    });
+
+    $('#Update-Form').submit(event => {
+        event.preventDefault();
+        let JWT = JSON.parse(localStorage.getItem('JWT')).token;
+        let username = JSON.parse(localStorage.getItem('currentUser')).username;
+        let formData = new FormData($('#Update-Form')[0]);
+        formData.set('username', username);
+
+        ajax.putAuthFile(`${PUT_PROFILE_URL}/${username}`, JWT, formData,
+            (success) =>{
+                console.log(success);
+                ajax.getAuth(`${GET_PROFILE_URL}/${username}`, JWT,
+                    (success) =>{
+                        console.log(success);
+                        user.render.ProfileResults(success);
+                    }, (error) =>{
+                        console.log(error);
+                    });
+            }, (error) => {
+                console.log(error);
+            });
     });
 
     // Watch sign out buttons

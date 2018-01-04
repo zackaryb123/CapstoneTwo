@@ -2,7 +2,6 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const passport = require('passport');
 const cloudinary = require('cloudinary');
-const path = require('path');
 const multer = require('multer');
 
 const { Post } = require('./models');
@@ -85,33 +84,4 @@ router.delete('/protected/delete/:public_id', jwtAuth, (req, res) => {
         });
 });
 
- /*router.get('/protected/:id', jwtAuth, (req, res) => {
-    Posts
-    .find(req.params.id) //check
-    .then(post => {
-        res.json(post.apiRepr());
-    }).catch(err => {
-        console.error(err);
-        res.status(500).json({message: 'Internal server error'});
-    });
-});
-
-router.put('/protected/update/:id', jwtAuth, (req, res) => {
-    if (!(req.params.id && req.body.id && req.params.id === req.body.id)) {
-        const message = (
-            `Request path id (${req.params.id}) and request body id (${req.body.id}) must match`);
-        console.error(message);
-        return res.status(400).send(message);
-    }
-
-    const toUpdate = {'bubbles'};
-
-    Posts
-    .findOneAndUpdate(req.params.id, {$set: toUpdate}, {new: true})
-    .then(updatedPost => {
-        console.log(`Updating blog post with id \`${req.params.id}\``);
-        res.status(204).end();
-    }).catch(errr => res.status(500).json({messgae: 'Internal server error'}));
-});
-*/
 module.exports = {router};

@@ -75,14 +75,15 @@ export function deleteAuth(URL, token, suc, err) {
     $.ajax(settings);
 }
 
-export function putAuth(URL, token, data, suc, err) {
+export function putAuthFile(URL, token, data, suc, err) {
     const settings ={
         url: URL,
         headers: {
-            "Authorization": `Bearer ${token}`,
-            "Content-Type": 'application/json'
+            "Authorization": `Bearer ${token}`
         },
-        data: JSON.stringify(data),
+        contentType: false,
+        processData: false,
+        data: data,
         type: 'PUT',
         success: suc,
         error: err

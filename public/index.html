@@ -26,10 +26,6 @@
                     <a id="globeBtn" class="nav-link" href="#">Globe<span class="sr-only"></span></a>
                 </li>
             </ul>
-<!--            <form class="form-inline my-2 mr-auto my-lg-0">
-                <input class="form-control mr-sm-2" type="search" placeholder="Search">
-                <button class="btn btn-outline-info my-2 my-sm-0" type="submit">Search</button>
-            </form>-->
             <ul class="navbar-nav mt-lg-0">
                 <li class="nav-item">
                     <button id="uploadBtn" type="button" class="btn btn-outline-info" data-toggle="modal" data-target="#Upload-Page">Upload</button>
@@ -55,7 +51,7 @@
                         <div class="container">
                             <div class="row js-profile">
                                 <div class="col-md-auto">
-                                    <img id="Avatar" src="/">
+                                    <img width="250" id="Avatar" src="/">
                                 </div>
                                 <div id="bioContent" class="col-lg-6">
                                     <div id="Username"></div>
@@ -67,7 +63,7 @@
                                     <div id="Email">
                                         <a href="#"><i aria-hidden="true"></i></a>
                                     </div>
-                                    <button id="editBioBtn" type="button" class="btn btn-link">Edit</button>
+                                    <button id="editBioBtn" type="button" data-toggle="modal" data-target="#Update-Modal" class="btn btn-link">Edit</button>
                                 </div>
                             </div>
                         </div>
@@ -93,6 +89,29 @@
         </div>
 
     </section>
+    <!--Profile Modal-->
+    <div id="Update-Modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Update Profile</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form id="Update-Form">
+                        <label>Bio</label>
+                        <input type="text" name="bio" placeholder="biography"/>
+                        <label>Avatar</label>
+                        <input type="file" name="avatar" accept="*"/>
+                        <input type="submit" name="Save Changes" class="btn btn-info">
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <!--Post Modal-->
     <div id="Post-Page" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
         <div id="Post-Modal" class="modal-dialog modal-lg">
@@ -183,7 +202,7 @@
         <div class="modal-dialog" role="document">
             <div class="upload modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Upload a Photo</h5>
+                    <h5 class="modal-title">Upload a Photo</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
@@ -191,11 +210,11 @@
                 <div class="modal-body">
                     <form id="Upload-Form">
                         <label>Title</label>
-                        <input type="text" name="title" placeholder="Title"> <!--required-->
+                        <input type="text" name="title" placeholder="Title">
                         <label>Caption</label>
                         <input type="text" name="caption" placeholder="caption">
                         <label>Image</label>
-                        <input type="file" name="image" accept="*"> <!--required-->
+                        <input type="file" name="image" accept="*">
                         <button id="Upload-Btn" type="submit" name="upload" class="btn btn-info col-12">Upload</button>
                     </form>
                 </div>
