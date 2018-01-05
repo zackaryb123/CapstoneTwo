@@ -1,4 +1,5 @@
-const prefix = "https://itracku-app.herokuapp.com/"; //http://localhost:8080/
+//const prefix = "https://itracku-app.herokuapp.com/";
+const prefix = "http://localhost:8080/";
 // Auth Urls
 const REGISTER_URL = "users/register";
 const LOGIN_URL = "auth/login";
@@ -38,7 +39,7 @@ function WatchApplication() {
         init.watchNavBtns(event);
     });
 
-    // Prevent modal close if not logged in 
+    // Prevent modal close if not logged in
     $('#login-joinPage').on('hide.bs.modal', (event) => {
         user.callback.PreventModalClose(event);
     });
@@ -79,13 +80,13 @@ function WatchApplication() {
                         post.render.PostResults(success);
                     }, (error) => {
                         console.log(error);
-                });
+                    });
                 ajax.getAuth(`${prefix}${GET_PROFILE_URL}/${username}`, JWT,
                     (success) =>{
                         user.render.ProfileResults(success);
                     }, (error) =>{
                         console.log(error);
-                });
+                    });
                 user.callback.LoginSuccess(username);
             }, (error) => {
                 user.callback.LoginError(error);
@@ -109,7 +110,7 @@ function WatchApplication() {
         let JWT = JSON.parse(localStorage.getItem('JWT')).token;
         let username = JSON.parse(localStorage.getItem('currentUser')).username;
         ajax.deleteAuth(`${prefix}${DELETE_POST_URL}/${post_id}`, JWT,
-           (success) => {
+            (success) => {
                 ajax.getAuth(`${prefix}${GET_POST_URL}/${username}`, JWT,
                     (success) => {
                         if (success.length > 0) {
@@ -125,10 +126,10 @@ function WatchApplication() {
                     },  (error) => {
                         console.log(error);
                     });
-       },
-           (error) => {
+            },
+            (error) => {
                 console.log(error);
-           });
+            });
     });
 
     $('#uploadBtn').click(() => {
@@ -152,26 +153,26 @@ function WatchApplication() {
         formData.set('username', username);
 
         ajax.postAuthFile(`${prefix}${POST_POST_URL}`, JWT, formData,
-        (success) => {
-            ajax.getAuth(`${prefix}${GET_POST_URL}/${username}`, JWT,
-                (success) => {
-                    if (success.length > 0){
-                        datamap.instance.bubbles(success,{
-                            popupTemplate: (geo, data) => {
-                                return ['<div class="hoverinfo">' + data.title,
-                                    '<br/><image width="100px" src="' + data.secure_url + '"/>' + '',
-                                    '</div>'].join('');
-                            }
-                        });
-                    }
-                    post.render.PostResults(success);
-                }, (error) => {
-                    console.log(error);
-                });
-            post.callback.UploadSuccess(success);
-        }, (error) => {
-            console.log(error);
-        });
+            (success) => {
+                ajax.getAuth(`${prefix}${GET_POST_URL}/${username}`, JWT,
+                    (success) => {
+                        if (success.length > 0){
+                            datamap.instance.bubbles(success,{
+                                popupTemplate: (geo, data) => {
+                                    return ['<div class="hoverinfo">' + data.title,
+                                        '<br/><image width="100px" src="' + data.secure_url + '"/>' + '',
+                                        '</div>'].join('');
+                                }
+                            });
+                        }
+                        post.render.PostResults(success);
+                    }, (error) => {
+                        console.log(error);
+                    });
+                post.callback.UploadSuccess(success);
+            }, (error) => {
+                console.log(error);
+            });
     });
 
     $('#pixFeed').on('click', '.post-card', (event) => {
@@ -188,10 +189,13 @@ function WatchApplication() {
         ajax.putAuthFile(`${prefix}${PUT_PROFILE_URL}/${username}`, JWT, formData,
             (success) =>{
                 console.log(success);
+                alert(`${username} profile has been updated`);
                 ajax.getAuth(`${prefix}${GET_PROFILE_URL}/${username}`, JWT,
                     (success) =>{
                         console.log(success);
-                        user.render.ProfileResults(success);
+                        $('#Bio').text(`${success.bio}`);
+                        $('#Avatar').prop('src',`${success.avatar}`);
+                        //user.render.ProfileResults(success);
                     }, (error) =>{
                         console.log(error);
                     });

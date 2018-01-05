@@ -165,15 +165,15 @@ router.put('/protected/:username', [jwtAuth, upload.single('avatar')], (req, res
     if ('file' in req) {
         cloudinary.v2.uploader.upload(req.file.path,
             {tags: [bio]})
-            .then(function (res) {
+            .then(function (update) {
                 return User
                     .findOneAndUpdate(req.params.username,
-                        {'avatar': res.secure_url,
-                        'bio': res.tags[0]})
+                        {'avatar': update.secure_url,
+                        'bio': update.tags[0]})
                     .then(updatedPost => {
                         console.log(updatedPost);
                         console.log(`Updating profile for \`${req.params.username}\``);
-                        res.status(204).json(updatedPost.apiRepr());
+                        res.status(204).json(updatedPost);
                     }).catch(err => {
                         console.log(err);
                         res.status(500).json({messgae: `Internal server error`})

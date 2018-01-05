@@ -80,7 +80,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__ajax_js__ = __webpack_require__(6);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__user_index_js__ = __webpack_require__(7);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__post_index_js__ = __webpack_require__(11);
-const prefix = "https://itracku-app.herokuapp.com/"; //http://localhost:8080/
+//const prefix = "https://itracku-app.herokuapp.com/";
+const prefix = "http://localhost:8080/";
 // Auth Urls
 const REGISTER_URL = "users/register";
 const LOGIN_URL = "auth/login";
@@ -120,7 +121,7 @@ function WatchApplication() {
         __WEBPACK_IMPORTED_MODULE_0__inital_index_js__["b" /* watchNavBtns */](event);
     });
 
-    // Prevent modal close if not logged in 
+    // Prevent modal close if not logged in
     $('#login-joinPage').on('hide.bs.modal', (event) => {
         __WEBPACK_IMPORTED_MODULE_2__user_index_js__["a" /* callback */].PreventModalClose(event);
     });
@@ -161,13 +162,13 @@ function WatchApplication() {
                         __WEBPACK_IMPORTED_MODULE_3__post_index_js__["b" /* render */].PostResults(success);
                     }, (error) => {
                         console.log(error);
-                });
+                    });
                 __WEBPACK_IMPORTED_MODULE_1__ajax_js__["b" /* getAuth */](`${prefix}${GET_PROFILE_URL}/${username}`, JWT,
                     (success) =>{
                         __WEBPACK_IMPORTED_MODULE_2__user_index_js__["c" /* render */].ProfileResults(success);
                     }, (error) =>{
                         console.log(error);
-                });
+                    });
                 __WEBPACK_IMPORTED_MODULE_2__user_index_js__["a" /* callback */].LoginSuccess(username);
             }, (error) => {
                 __WEBPACK_IMPORTED_MODULE_2__user_index_js__["a" /* callback */].LoginError(error);
@@ -191,7 +192,7 @@ function WatchApplication() {
         let JWT = JSON.parse(localStorage.getItem('JWT')).token;
         let username = JSON.parse(localStorage.getItem('currentUser')).username;
         __WEBPACK_IMPORTED_MODULE_1__ajax_js__["a" /* deleteAuth */](`${prefix}${DELETE_POST_URL}/${post_id}`, JWT,
-           (success) => {
+            (success) => {
                 __WEBPACK_IMPORTED_MODULE_1__ajax_js__["b" /* getAuth */](`${prefix}${GET_POST_URL}/${username}`, JWT,
                     (success) => {
                         if (success.length > 0) {
@@ -207,10 +208,10 @@ function WatchApplication() {
                     },  (error) => {
                         console.log(error);
                     });
-       },
-           (error) => {
+            },
+            (error) => {
                 console.log(error);
-           });
+            });
     });
 
     $('#uploadBtn').click(() => {
@@ -234,26 +235,26 @@ function WatchApplication() {
         formData.set('username', username);
 
         __WEBPACK_IMPORTED_MODULE_1__ajax_js__["e" /* postAuthFile */](`${prefix}${POST_POST_URL}`, JWT, formData,
-        (success) => {
-            __WEBPACK_IMPORTED_MODULE_1__ajax_js__["b" /* getAuth */](`${prefix}${GET_POST_URL}/${username}`, JWT,
-                (success) => {
-                    if (success.length > 0){
-                        datamap.instance.bubbles(success,{
-                            popupTemplate: (geo, data) => {
-                                return ['<div class="hoverinfo">' + data.title,
-                                    '<br/><image width="100px" src="' + data.secure_url + '"/>' + '',
-                                    '</div>'].join('');
-                            }
-                        });
-                    }
-                    __WEBPACK_IMPORTED_MODULE_3__post_index_js__["b" /* render */].PostResults(success);
-                }, (error) => {
-                    console.log(error);
-                });
-            __WEBPACK_IMPORTED_MODULE_3__post_index_js__["a" /* callback */].UploadSuccess(success);
-        }, (error) => {
-            console.log(error);
-        });
+            (success) => {
+                __WEBPACK_IMPORTED_MODULE_1__ajax_js__["b" /* getAuth */](`${prefix}${GET_POST_URL}/${username}`, JWT,
+                    (success) => {
+                        if (success.length > 0){
+                            datamap.instance.bubbles(success,{
+                                popupTemplate: (geo, data) => {
+                                    return ['<div class="hoverinfo">' + data.title,
+                                        '<br/><image width="100px" src="' + data.secure_url + '"/>' + '',
+                                        '</div>'].join('');
+                                }
+                            });
+                        }
+                        __WEBPACK_IMPORTED_MODULE_3__post_index_js__["b" /* render */].PostResults(success);
+                    }, (error) => {
+                        console.log(error);
+                    });
+                __WEBPACK_IMPORTED_MODULE_3__post_index_js__["a" /* callback */].UploadSuccess(success);
+            }, (error) => {
+                console.log(error);
+            });
     });
 
     $('#pixFeed').on('click', '.post-card', (event) => {
@@ -270,10 +271,13 @@ function WatchApplication() {
         __WEBPACK_IMPORTED_MODULE_1__ajax_js__["f" /* putAuthFile */](`${prefix}${PUT_PROFILE_URL}/${username}`, JWT, formData,
             (success) =>{
                 console.log(success);
+                alert(`${username} profile has been updated`);
                 __WEBPACK_IMPORTED_MODULE_1__ajax_js__["b" /* getAuth */](`${prefix}${GET_PROFILE_URL}/${username}`, JWT,
                     (success) =>{
                         console.log(success);
-                        __WEBPACK_IMPORTED_MODULE_2__user_index_js__["c" /* render */].ProfileResults(success);
+                        $('#Bio').text(`${success.bio}`);
+                        $('#Avatar').prop('src',`${success.avatar}`);
+                        //user.render.ProfileResults(success);
                     }, (error) =>{
                         console.log(error);
                     });
@@ -849,8 +853,6 @@ function PostResults(render) {
                 <div class="content">
                     <div class="header">${post.title}</div>
                     <div class="caption">${post.caption}</div>
-                    <div class=longitude>${post.longitude}</div>
-                    <div class="latitude">${post.latitude}</div>
                     <div class="date">${post.created_at}</div>
                 </div>
             </a>
@@ -902,8 +904,8 @@ function OnPostClick(event) {
 
     let title = $(event.currentTarget).find('.header').text();
     let caption = $(event.currentTarget).find('.caption').text();
-    let longitude = $(event.currentTarget).find('.longitude').text();
-    let latitude = $(event.currentTarget).find('.latitude').text();
+    //let longitude = $(event.currentTarget).find('.longitude').text();
+    //let latitude = $(event.currentTarget).find('.latitude').text();
     let date = $(event.currentTarget).find('.date').text();
     let public_id = $(event.currentTarget).attr('id');
 
@@ -911,8 +913,8 @@ function OnPostClick(event) {
     $('#Post-Card img').attr('src', img_url);
     $('#header').text(title);
     $('#caption').text(caption);
-    $('#longitude').text(longitude);
-    $('#latitude').text(latitude);
+    //$('#longitude').text(longitude);
+    //$('#latitude').text(latitude);
     $('#date').text(date);
 }
 

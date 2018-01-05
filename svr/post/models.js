@@ -14,7 +14,7 @@ const PostSchema = mongoose.Schema({
     width: {type: Number},
     height: {type: String},
     format: {type: String},
-    created_at: {type: Date},
+    created_at: {type: String},
     bytes: {type: Number},
     url: {type: String, required: true},
     secure_url: {type: String, required: true}

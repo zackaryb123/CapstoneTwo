@@ -3,6 +3,7 @@ const bodyParser = require('body-parser');
 const passport = require('passport');
 const cloudinary = require('cloudinary');
 const multer = require('multer');
+const moment = require('moment');
 
 const { Post } = require('./models');
 const router = express.Router();
@@ -57,7 +58,7 @@ router.post('/protected/uploads', [jwtAuth, upload.single('image')], (req, res) 
             width: res.width,
             height: res.height,
             format: res.format,
-            created_at: res.created_at,
+            created_at: moment().format('MMMM Do YYYY'), //res.created_at,
             bytes: res.bytes,
             url: res.url,
             secure_url: res.secure_url

@@ -8,8 +8,6 @@ export function PostResults(render) {
                 <div class="content">
                     <div class="header">${post.title}</div>
                     <div class="caption">${post.caption}</div>
-                    <div class=longitude>${post.longitude}</div>
-                    <div class="latitude">${post.latitude}</div>
                     <div class="date">${post.created_at}</div>
                 </div>
             </a>
