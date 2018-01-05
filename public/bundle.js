@@ -80,24 +80,25 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__ajax_js__ = __webpack_require__(6);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__user_index_js__ = __webpack_require__(7);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__post_index_js__ = __webpack_require__(11);
+const prefix = "https://itracku-app.herokuapp.com/"; //http://localhost:8080/
 // Auth Urls
-const REGISTER_URL = "http://localhost:8080/users/register";
-const LOGIN_URL = "http://localhost:8080/auth/login";
-const REFRESH_URL = "http://localhost:8080/auth/refresh";
+const REGISTER_URL = "users/register";
+const LOGIN_URL = "auth/login";
+const REFRESH_URL = "auth/refresh";
 
 // GET Urls
-const GET_POST_URL = "http://localhost:8080/post/protected"; 
-const GET_PROFILE_URL = "http://localhost:8080/users/protected";
+const GET_POST_URL = "post/protected";
+const GET_PROFILE_URL = "users/protected";
 
 // POST Urls
-const POST_POST_URL = "http://localhost:8080/post/protected/uploads";
+const POST_POST_URL = "post/protected/uploads";
 
 // PUT Urls
-const PUT_PROFILE_URL = "http://localhost:8080/users/protected"
+const PUT_PROFILE_URL = "users/protected"
 
 // DELETE Urls
-const DELETE_POST_URL = "http://localhost:8080/post/protected/delete";
-//const DELETE_PROFILE_URL = "http://localhost:8080/user/protected/delete";
+const DELETE_POST_URL = "post/protected/delete";
+//const DELETE_PROFILE_URL = "user/protected/delete";
 
 
 
@@ -128,7 +129,7 @@ function WatchApplication() {
     $('#registerForm').submit(event => {
         event.preventDefault();
         const userData = __WEBPACK_IMPORTED_MODULE_2__user_index_js__["b" /* data */].getRegisterFormInfo(event);
-        __WEBPACK_IMPORTED_MODULE_1__ajax_js__["c" /* post */](REGISTER_URL, userData,
+        __WEBPACK_IMPORTED_MODULE_1__ajax_js__["c" /* post */](`${prefix}${REGISTER_URL}`, userData,
             (success) => {
                 __WEBPACK_IMPORTED_MODULE_2__user_index_js__["a" /* callback */].RegisterSuccess(success);
             }, (error) => {
@@ -139,14 +140,14 @@ function WatchApplication() {
     // Watch login load user profile details, datamap, and post
     $('#loginForm').submit(event => {
         event.preventDefault();
-        __WEBPACK_IMPORTED_MODULE_1__ajax_js__["c" /* post */](LOGIN_URL, __WEBPACK_IMPORTED_MODULE_2__user_index_js__["b" /* data */].getLoginFormCreds(event), 
+        __WEBPACK_IMPORTED_MODULE_1__ajax_js__["c" /* post */](`${prefix}${LOGIN_URL}`, __WEBPACK_IMPORTED_MODULE_2__user_index_js__["b" /* data */].getLoginFormCreds(event),
             (success) => {
                 const username = $(event.currentTarget).find('input[name=username]').val();
                 localStorage.setItem('currentUser', JSON.stringify({username: username}));
                 localStorage.setItem('JWT', JSON.stringify({token: success.authToken}));
                 const JWT = JSON.parse(localStorage.getItem('JWT')).token;
 
-                __WEBPACK_IMPORTED_MODULE_1__ajax_js__["b" /* getAuth */](`${GET_POST_URL}/${username}`, JWT, 
+                __WEBPACK_IMPORTED_MODULE_1__ajax_js__["b" /* getAuth */](`${prefix}${GET_POST_URL}/${username}`, JWT,
                     (success) => {
                         if (success.length > 0){
                             datamap.instance.bubbles(success,{
@@ -161,7 +162,7 @@ function WatchApplication() {
                     }, (error) => {
                         console.log(error);
                 });
-                __WEBPACK_IMPORTED_MODULE_1__ajax_js__["b" /* getAuth */](`${GET_PROFILE_URL}/${username}`, JWT, 
+                __WEBPACK_IMPORTED_MODULE_1__ajax_js__["b" /* getAuth */](`${prefix}${GET_PROFILE_URL}/${username}`, JWT,
                     (success) =>{
                         __WEBPACK_IMPORTED_MODULE_2__user_index_js__["c" /* render */].ProfileResults(success);
                     }, (error) =>{
@@ -176,7 +177,7 @@ function WatchApplication() {
     // Watch refresh authentication button
     $('#refreshJWT').click(() => {
         let JWT = JSON.parse(localStorage.getItem('JWT')).token;
-        __WEBPACK_IMPORTED_MODULE_1__ajax_js__["d" /* postAuth */](REFRESH_URL, JWT, {}, 
+        __WEBPACK_IMPORTED_MODULE_1__ajax_js__["d" /* postAuth */](`${prefix}${REFRESH_URL}`, JWT, {},
             (success) => {
                 localStorage.setItem('JWT', JSON.stringify({token: success.authToken}));
                 __WEBPACK_IMPORTED_MODULE_2__user_index_js__["a" /* callback */].RefreshSuccess(success);
@@ -189,9 +190,9 @@ function WatchApplication() {
         let post_id = $('#Post-ID').text();
         let JWT = JSON.parse(localStorage.getItem('JWT')).token;
         let username = JSON.parse(localStorage.getItem('currentUser')).username;
-        __WEBPACK_IMPORTED_MODULE_1__ajax_js__["a" /* deleteAuth */](`${DELETE_POST_URL}/${post_id}`, JWT,
+        __WEBPACK_IMPORTED_MODULE_1__ajax_js__["a" /* deleteAuth */](`${prefix}${DELETE_POST_URL}/${post_id}`, JWT,
            (success) => {
-                __WEBPACK_IMPORTED_MODULE_1__ajax_js__["b" /* getAuth */](`${GET_POST_URL}/${username}`, JWT,
+                __WEBPACK_IMPORTED_MODULE_1__ajax_js__["b" /* getAuth */](`${prefix}${GET_POST_URL}/${username}`, JWT,
                     (success) => {
                         if (success.length > 0) {
                             datamap.instance.bubbles(success, {
@@ -232,9 +233,9 @@ function WatchApplication() {
         formData.set('latitude', latitude);
         formData.set('username', username);
 
-        __WEBPACK_IMPORTED_MODULE_1__ajax_js__["e" /* postAuthFile */](POST_POST_URL, JWT, formData,
+        __WEBPACK_IMPORTED_MODULE_1__ajax_js__["e" /* postAuthFile */](`${prefix}${POST_POST_URL}`, JWT, formData,
         (success) => {
-            __WEBPACK_IMPORTED_MODULE_1__ajax_js__["b" /* getAuth */](`${GET_POST_URL}/${username}`, JWT,
+            __WEBPACK_IMPORTED_MODULE_1__ajax_js__["b" /* getAuth */](`${prefix}${GET_POST_URL}/${username}`, JWT,
                 (success) => {
                     if (success.length > 0){
                         datamap.instance.bubbles(success,{
@@ -266,10 +267,10 @@ function WatchApplication() {
         let formData = new FormData($('#Update-Form')[0]);
         formData.set('username', username);
 
-        __WEBPACK_IMPORTED_MODULE_1__ajax_js__["f" /* putAuthFile */](`${PUT_PROFILE_URL}/${username}`, JWT, formData,
+        __WEBPACK_IMPORTED_MODULE_1__ajax_js__["f" /* putAuthFile */](`${prefix}${PUT_PROFILE_URL}/${username}`, JWT, formData,
             (success) =>{
                 console.log(success);
-                __WEBPACK_IMPORTED_MODULE_1__ajax_js__["b" /* getAuth */](`${GET_PROFILE_URL}/${username}`, JWT,
+                __WEBPACK_IMPORTED_MODULE_1__ajax_js__["b" /* getAuth */](`${prefix}${GET_PROFILE_URL}/${username}`, JWT,
                     (success) =>{
                         console.log(success);
                         __WEBPACK_IMPORTED_MODULE_2__user_index_js__["c" /* render */].ProfileResults(success);

@@ -2,7 +2,6 @@
 exports.DATABASE_URL =
     process.env.DATABASE_URL ||
     global.DATABASE_URL ||
-    //'mongodb://itracku-user:digger123@ds115035.mlab.com:15035/itracku-app'
     'mongodb://localhost/itracku-app';
 
 exports.PORT = process.env.PORT || 8080;
