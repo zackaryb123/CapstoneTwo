@@ -169,15 +169,18 @@ router.put('/protected/:username', [jwtAuth, upload.single('avatar')], (req, res
                 return User
                     .findOneAndUpdate(req.params.username,
                         {'avatar': res.secure_url,
-                        'bio': res.tags[0]},
-                        {new: true})
+                        'bio': res.tags[0]})
                     .then(updatedPost => {
                         console.log(updatedPost);
                         console.log(`Updating profile for \`${req.params.username}\``);
                         res.status(204).json(updatedPost.apiRepr());
-                    }).catch(errr => res.status(500).json({messgae: 'Internal server error'}));
+                    }).catch(err => {
+                        console.log(err);
+                        res.status(500).json({messgae: `Internal server error`})
+                    });
             });
-    } else {
+    }
+    if (!('file' in req)) {
         return User
             .findOneAndUpdate(req.params.username,
                 {'bio': bio},
@@ -186,7 +189,10 @@ router.put('/protected/:username', [jwtAuth, upload.single('avatar')], (req, res
                 console.log(updatedPost);
                 console.log(`Updating profile for \`${req.params.username}\``);
                 res.status(204).json(updatedPost.apiRepr());
-            }).catch(errr => res.status(500).json({messgae: 'Internal server error'}));
+            }).catch(err => {
+                console.log(err);
+                res.status(500).json({messgae: `Internal server error`})
+            });
     }
 });
 
