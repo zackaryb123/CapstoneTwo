@@ -52,6 +52,7 @@ function WatchApplication() {
             (success) => {
                 user.callback.RegisterSuccess(success);
             }, (error) => {
+                console.log(error);
                 user.callback.RegisterError(error);
             });
     });

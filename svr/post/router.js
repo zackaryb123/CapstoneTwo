@@ -58,7 +58,7 @@ router.post('/protected/uploads', [jwtAuth, upload.single('image')], (req, res) 
             width: res.width,
             height: res.height,
             format: res.format,
-            created_at: moment().format('MMMM Do YYYY'), //res.created_at,
+            created_at: moment().format('MMMM Do YYYY'),
             bytes: res.bytes,
             url: res.url,
             secure_url: res.secure_url

@@ -80,8 +80,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__ajax_js__ = __webpack_require__(6);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__user_index_js__ = __webpack_require__(7);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__post_index_js__ = __webpack_require__(11);
-//const prefix = "https://itracku-app.herokuapp.com/";
-const prefix = "http://localhost:8080/";
+const prefix = "https://itracku-app.herokuapp.com/";
+//const prefix = "http://localhost:8080/";
 // Auth Urls
 const REGISTER_URL = "users/register";
 const LOGIN_URL = "auth/login";
@@ -134,6 +134,7 @@ function WatchApplication() {
             (success) => {
                 __WEBPACK_IMPORTED_MODULE_2__user_index_js__["a" /* callback */].RegisterSuccess(success);
             }, (error) => {
+                console.log(error);
                 __WEBPACK_IMPORTED_MODULE_2__user_index_js__["a" /* callback */].RegisterError(error);
             });
     });
