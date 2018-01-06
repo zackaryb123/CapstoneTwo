@@ -1,5 +1,5 @@
-//const prefix = "https://itracku-app.herokuapp.com/";
-const prefix = "http://localhost:8080/";
+const prefix = "https://itracku-app.herokuapp.com/";
+//const prefix = "http://localhost:8080/";
 // Auth Urls
 const REGISTER_URL = "users/register";
 const LOGIN_URL = "auth/login";
