@@ -122,9 +122,9 @@ function WatchApplication() {
     });
 
     // Prevent modal close if not logged in
-    $('#login-joinPage').on('hide.bs.modal', (event) => {
-        __WEBPACK_IMPORTED_MODULE_2__user_index_js__["a" /* callback */].PreventModalClose(event);
-    });
+    // $('#login-joinPage').on('hide.bs.modal', (event) => {
+    //
+    // });
 
     // Watch Registeration and store user info
     $('#registerForm').submit(event => {
@@ -740,7 +740,7 @@ function PreventModalClose(event) {
     if(JWT === '') {
        event.preventDefault();
        event.stopImmediatePropagation();
-       return false; 
+       return false;
      }
 }
 
@@ -772,7 +772,10 @@ function LoginSuccess(username) {
     //event
     $('#loginForm').trigger('reset');
     $('#signoutBtn').prop('hidden', false);
-    $("#login-joinPage").modal('hide');
+    $('#login-joinPage').modal('hide');
+    $('#Cover-Page').prop('hidden', true);
+    $('#Nav').prop('hidden', false);
+    $("#App").css("display", "block");
 
     alert(`${username} successfully loged in!`);  
 }
@@ -794,6 +797,7 @@ function RefreshError(err) {
 
 function SignOutSuccess(event) {
     window.location.reload(true);
+    $("#App").css("display", "none");
 }
 
 function UploadSuccess(event) {

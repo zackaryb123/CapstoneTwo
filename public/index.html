@@ -9,10 +9,13 @@
     <link rel="stylesheet" href="stylesheets/main.css"/>
     <link rel="stylesheet" href="stylesheets/modal.css"/>
     <link rel="stylesheet" href="stylesheets/profile.css"/>
+    <link rel="stylesheet" href="stylesheets/landing.css"/>
 </head>
 <body>
-    <nav class="navbar fixed-top navbar-expand-lg navbar-dark bg-dark">
-        <a class="navbar-brand" href="#">iTrackU</a>
+    <nav id="Nav" class="navbar fixed-top navbar-expand-lg navbar-dark bg-dark" hidden>
+        <a class="navbar-brand" href="#">
+            <img class="nav-logo" src="img/iTrackU_icon.png" alt="app logo"/>iTrackU
+        </a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo02" aria-controls="navbarTogglerDemo02" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
@@ -37,7 +40,7 @@
         </div>
     </nav>
 
-    <section class="page-container">
+    <section id="App" class="page-container" >
         <div class="jumbotron container text-center">
             <div id="worldMapView">
                 <button class="zoom-button reset" data-zoom="reset">0</button>
@@ -89,6 +92,44 @@
         </div>
 
     </section>
+
+    <!--Landing Page-->
+    <section id="Cover-Page">
+        <div class="site-wrapper-inner">
+
+            <div class="cover-container">
+
+                <header class="masthead clearfix">
+                    <div class="inner">
+                        <a class="cover-logo navbar-brand" href="#">
+                            <img class="nav-logo" src="img/iTrackU_icon.png" alt="app logo"/>
+                        </a>
+                        <!--<nav class="nav nav-masthead">-->
+                            <!--<a class="nav-link active" href="#">Home</a>-->
+                            <!--<a class="nav-link" href="#">Features</a>-->
+                            <!--<a class="nav-link" href="#">Contact</a>-->
+                        <!--</nav>-->
+                    </div>
+                </header>
+
+                <main role="main" class="inner cover">
+                    <h1 class="cover-heading">iTrackU Application</h1>
+                    <p class="lead">Register for iTrackU to create an account. Login with your credential and begin to upload pictures to your profile. Geolocation finds devices coordinates and displays location of where the picture was uploaded.</p>
+                    <p class="lead">
+                        <input value="Register/Login" type="button" class="btn btn-outline-info" data-toggle="modal" data-target="#login-joinPage"/>
+                    </p>
+                </main>
+
+                <footer class="mastfoot">
+                    <div class="inner">
+                        <p>Application by <a href="https://github.com/zackaryb123">@zackaryb123</a></p>
+                    </div>
+                </footer>
+
+            </div>
+
+        </div>
+    </section>
     <!--Profile Modal-->
     <div id="Update-Modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
@@ -96,7 +137,7 @@
                 <div class="modal-header">
                     <h5 class="modal-title">Update Profile</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
+                        <span aria-hidden="true">&times</span>
                     </button>
                 </div>
                 <div class="modal-body">
@@ -127,7 +168,7 @@
                             <span id="Post-ID" hidden></span>
                             <div id="Post-Content" class="card-body">
                                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                        <span aria-hidden="true">×</span>
+                                        <span aria-hidden="true">&times</span>
                                 </button>
                                 <div class="content">
                                     <div id="header"></div>
@@ -149,6 +190,9 @@
     <div id="login-joinPage" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
         <div id="LoginJoinModal" class="modal-dialog modal-lg">
             <div class="login-join modal-content">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times</span>
+                </button>
                 <nav class="nav nav-tabs" id="myTab" role="tablist">
                     <a class="nav-item btn-outline-info nav-link active" id="nav-register-tab" data-toggle="tab" href="#nav-register" role="tab" aria-controls="nav-register" aria-selected="true">Register</a>
                     <a class="nav-item btn-outline-info nav-link" id="nav-login-tab" data-toggle="tab" href="#nav-login" role="tab" aria-controls="nav-login" aria-selected="false">Login</a>
@@ -235,9 +279,9 @@
     <script src="./bundle.js"></script>
     <script type="text/javascript">
     $(document).ready(function(){
+        $("#App").css("display", "none");
         localStorage.clear();
         localStorage.setItem('JWT', JSON.stringify({token: ''}));
-        $("#login-joinPage").modal('show');
     });
     </script>
 </body>
