@@ -40,9 +40,9 @@ function WatchApplication() {
     });
 
     // Prevent modal close if not logged in
-    $('#login-joinPage').on('hide.bs.modal', (event) => {
-        user.callback.PreventModalClose(event);
-    });
+    // $('#login-joinPage').on('hide.bs.modal', (event) => {
+    //
+    // });
 
     // Watch Registeration and store user info
     $('#registerForm').submit(event => {

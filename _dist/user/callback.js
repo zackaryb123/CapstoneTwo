@@ -5,7 +5,7 @@ export function PreventModalClose(event) {
     if(JWT === '') {
        event.preventDefault();
        event.stopImmediatePropagation();
-       return false; 
+       return false;
      }
 }
 
@@ -37,7 +37,10 @@ export function LoginSuccess(username) {
     //event
     $('#loginForm').trigger('reset');
     $('#signoutBtn').prop('hidden', false);
-    $("#login-joinPage").modal('hide');
+    $('#login-joinPage').modal('hide');
+    $('#Cover-Page').prop('hidden', true);
+    $('#Nav').prop('hidden', false);
+    $("#App").css("display", "block");
 
     alert(`${username} successfully loged in!`);  
 }
@@ -59,6 +62,7 @@ export function RefreshError(err) {
 
 export function SignOutSuccess(event) {
     window.location.reload(true);
+    $("#App").css("display", "none");
 }
 
 export function UploadSuccess(event) {
