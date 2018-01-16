@@ -102,8 +102,9 @@ router.post('/register', (req, res) => {
     });
   }
 
-  let {username, password, email, firstName, lastName, bio = 'Edit to add personal biography.', 
-  avatar = "img/avatar.png"} = req.body;
+  let {username, password, email, firstName, lastName} = req.body;
+  let bio = 'Edit to add personal biography.';
+  let avatar = "img/avatar.png";
   firstName = firstName.trim();
   lastName = lastName.trim();
 
