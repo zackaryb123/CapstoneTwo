@@ -143,7 +143,7 @@ function WatchApplication() {
     $('#loginForm').submit(event => {
         event.preventDefault();
 
-        const username = $(event.currentTarget).find('input[name=username]').val();
+        const username = $(event.currentTarget).find("input[name=username]").val();
         localStorage.setItem('currentUser', JSON.stringify({username: username}));
 
         __WEBPACK_IMPORTED_MODULE_1__ajax_js__["c" /* post */](`${prefix}${LOGIN_URL}`, __WEBPACK_IMPORTED_MODULE_2__user_index_js__["b" /* data */].getLoginFormCreds(event),
