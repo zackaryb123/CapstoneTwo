@@ -146,7 +146,7 @@ router.post('/register', (req, res) => {
 const jwtAuth = passport.authenticate('jwt', {session: false});
 router.get('/protected/:username', jwtAuth, (req, res) => {
   return User
-    .findOne(req.body.username)
+    .findOne({username: req.params.username})
     .then(user => res.json(user.apiRepr()))
     .catch(err => {
       console.error(err);
@@ -168,7 +168,7 @@ router.put('/protected/:username', [jwtAuth, upload.single('avatar')], (req, res
             {tags: [bio]})
             .then(function (update) {
                 return User
-                    .findOneAndUpdate(req.params.username,
+                    .findOneAndUpdate({username:req.params.username},
                         {'avatar': update.secure_url,
                         'bio': update.tags[0]})
                     .then(updatedPost => {
@@ -183,7 +183,7 @@ router.put('/protected/:username', [jwtAuth, upload.single('avatar')], (req, res
     }
     if (!('file' in req)) {
         return User
-            .findOneAndUpdate(req.params.username,
+            .findOneAndUpdate({username:req.params.username},
                 {'bio': bio},
                 {new: true})
             .then(updatedPost => {
