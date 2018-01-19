@@ -64,8 +64,3 @@ export function SignOutSuccess(event) {
     window.location.reload(true);
     $("#App").css("display", "none");
 }
-
-export function UploadSuccess(event) {
-    $('#Upload-Form').trigger('reset');
-    $("#Upload-Page").modal();
-}

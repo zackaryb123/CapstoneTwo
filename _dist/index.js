@@ -60,11 +60,14 @@ function WatchApplication() {
     // Watch login load user profile details, datamap, and post
     $('#loginForm').submit(event => {
         event.preventDefault();
+
+        const username = $(event.currentTarget).find('input[name=username]').val();
+        localStorage.setItem('currentUser', JSON.stringify({username: username}));
+
         ajax.post(`${prefix}${LOGIN_URL}`, user.data.getLoginFormCreds(event),
             (success) => {
-                const username = $(event.currentTarget).find('input[name=username]').val();
-                localStorage.setItem('currentUser', JSON.stringify({username: username}));
                 localStorage.setItem('JWT', JSON.stringify({token: success.authToken}));
+                const username = JSON.parse(localStorage.getItem('currentUser')).username;
                 const JWT = JSON.parse(localStorage.getItem('JWT')).token;
 
                 ajax.getAuth(`${prefix}${GET_POST_URL}/${username}`, JWT,
