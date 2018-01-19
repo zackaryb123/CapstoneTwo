@@ -142,11 +142,14 @@ function WatchApplication() {
     // Watch login load user profile details, datamap, and post
     $('#loginForm').submit(event => {
         event.preventDefault();
+
+        const username = $(event.currentTarget).find('input[name=username]').val();
+        localStorage.setItem('currentUser', JSON.stringify({username: username}));
+
         __WEBPACK_IMPORTED_MODULE_1__ajax_js__["c" /* post */](`${prefix}${LOGIN_URL}`, __WEBPACK_IMPORTED_MODULE_2__user_index_js__["b" /* data */].getLoginFormCreds(event),
             (success) => {
-                const username = $(event.currentTarget).find('input[name=username]').val();
-                localStorage.setItem('currentUser', JSON.stringify({username: username}));
                 localStorage.setItem('JWT', JSON.stringify({token: success.authToken}));
+                const username = JSON.parse(localStorage.getItem('currentUser')).username;
                 const JWT = JSON.parse(localStorage.getItem('JWT')).token;
 
                 __WEBPACK_IMPORTED_MODULE_1__ajax_js__["b" /* getAuth */](`${prefix}${GET_POST_URL}/${username}`, JWT,
@@ -732,7 +735,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony export (immutable) */ __webpack_exports__["RefreshSuccess"] = RefreshSuccess;
 /* harmony export (immutable) */ __webpack_exports__["RefreshError"] = RefreshError;
 /* harmony export (immutable) */ __webpack_exports__["SignOutSuccess"] = SignOutSuccess;
-/* harmony export (immutable) */ __webpack_exports__["UploadSuccess"] = UploadSuccess;
 // Eventually import all to this file and call ajax funtions then export to index
 
 function PreventModalClose(event) {
@@ -798,11 +800,6 @@ function RefreshError(err) {
 function SignOutSuccess(event) {
     window.location.reload(true);
     $("#App").css("display", "none");
-}
-
-function UploadSuccess(event) {
-    $('#Upload-Form').trigger('reset');
-    $("#Upload-Page").modal();
 }
 
 /***/ }),
