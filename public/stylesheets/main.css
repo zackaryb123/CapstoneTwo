@@ -3,6 +3,10 @@
     margin: 0px;
 }
 
+html {
+    background-color: #5bc0de;
+}
+
 .nav-logo {
     height: 3rem;
     margin-right: .5rem;
