@@ -61,7 +61,7 @@ function WatchApplication() {
     $('#loginForm').submit(event => {
         event.preventDefault();
 
-        const username = $(event.currentTarget).find('input[name=username]').val();
+        const username = $(event.currentTarget).find("input[name=username]").val();
         localStorage.setItem('currentUser', JSON.stringify({username: username}));
 
         ajax.post(`${prefix}${LOGIN_URL}`, user.data.getLoginFormCreds(event),
