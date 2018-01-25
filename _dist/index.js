@@ -81,7 +81,7 @@ function WatchApplication() {
                                         '</div>'].join('');
                                 }
                             });
-                            $('#worldMapView').find('.datamaps-bubble').css({'fill': 'rgb(252, 122, 0)'}, {'stroke': 'rgb(20, 20, 20)'});
+                            $('#worldMapView').find('.datamaps-bubble').style({'fill': 'rgb(252, 122, 0)'}, {'stroke': 'rgb(20, 20, 20)'});
                         }
                         post.render.PostResults(success);
                     }, (error) => {
