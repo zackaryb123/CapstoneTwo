@@ -82,6 +82,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__post_index_js__ = __webpack_require__(11);
 const prefix = "https://itracku-app.herokuapp.com/";
 //const prefix = "http://localhost:8080/";
+
 // Auth Urls
 const REGISTER_URL = "users/register";
 const LOGIN_URL = "auth/login";
@@ -95,7 +96,7 @@ const GET_PROFILE_URL = "users/protected";
 const POST_POST_URL = "post/protected/uploads";
 
 // PUT Urls
-const PUT_PROFILE_URL = "users/protected"
+const PUT_PROFILE_URL = "users/protected";
 
 // DELETE Urls
 const DELETE_POST_URL = "post/protected/delete";
@@ -162,6 +163,7 @@ function WatchApplication() {
                                         '</div>'].join('');
                                 }
                             });
+                            $('#worldMapView').find('.datamaps-bubble').props({fill: rgb(252, 122, 0)}, {stroke: rgb(20, 20, 20)})
                         }
                         __WEBPACK_IMPORTED_MODULE_3__post_index_js__["b" /* render */].PostResults(success);
                     }, (error) => {
