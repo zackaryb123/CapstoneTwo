@@ -163,7 +163,7 @@ function WatchApplication() {
                                         '</div>'].join('');
                                 }
                             });
-                            $('#worldMapView').find('.datamaps-bubble').props({fill: rgb(252, 122, 0)}, {stroke: rgb(20, 20, 20)})
+                            $('#worldMapView').find('.datamaps-bubble').props({'fill': 'rgb(252, 122, 0)'}, {'stroke': 'rgb(20, 20, 20)'});
                         }
                         __WEBPACK_IMPORTED_MODULE_3__post_index_js__["b" /* render */].PostResults(success);
                     }, (error) => {
