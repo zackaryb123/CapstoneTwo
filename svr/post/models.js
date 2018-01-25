@@ -8,7 +8,7 @@ const PostSchema = mongoose.Schema({
     caption: {type: String},
     longitude: {type: Number, default: null},
     latitude: {type: Number, default: null},
-    radius: {type: Number, default: .5},
+    radius: {type: Number, default: 10},
     fillKey: {type: String},
     signature: {type: String},
     width: {type: Number},
