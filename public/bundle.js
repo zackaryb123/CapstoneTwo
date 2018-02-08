@@ -864,7 +864,7 @@ function PostResults(render) {
             <a class="ui card" data-toggle="modal" data-target="#Post-Page">
                 <image height="260" class="ui image" src="${post.secure_url}" />
                 <div class="content">
-                    <div class="header">${title}</div>
+                    <div class="header"><h3>${title}</h3></div>
                     <div class="caption">${caption}</div>
                     <div class="date">${post.created_at}</div>
                 </div>
