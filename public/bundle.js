@@ -113,10 +113,6 @@ const DELETE_POST_URL = "post/protected/delete";
 let datamap = new __WEBPACK_IMPORTED_MODULE_0__inital_index_js__["a" /* Datamap */]();
 
 function WatchApplication() {
-    // $(window).on('resize', function() {
-    //     map.resize();
-    // });
-
     // Watch Navbar buttons
     $('ul.navbar-nav').on('click', '.nav-link', event => {
         __WEBPACK_IMPORTED_MODULE_0__inital_index_js__["b" /* watchNavBtns */](event);
@@ -558,6 +554,7 @@ function watchNavBtns(event) {
                 $(event.currentTarget).parent().addClass('active');
                 $('#worldMapView').attr('hidden', true);
                 $('#profileView').attr('hidden', false);
+                $('#Jumbo-Text').text('Profile');
             }
             break;
         case 'globeBtn':
@@ -568,6 +565,7 @@ function watchNavBtns(event) {
                 $(event.currentTarget).parent().addClass('active');
                 $('#profileView').attr('hidden', true);
                 $('#worldMapView').attr('hidden', false);
+                $('#Jumbo-Text').text('Locate Your Pictures on the Map');
             }
             break;
     }

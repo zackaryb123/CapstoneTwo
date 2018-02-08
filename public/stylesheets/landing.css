@@ -36,6 +36,10 @@ a:hover {
     margin-left: auto;
 }
 
+.big-nav-logo {
+    height: 8rem;
+}
+
 /* Padding for spacing */
 .inner {
 
@@ -46,6 +50,8 @@ a:hover {
  */
 .masthead {
     margin-bottom: 2rem;
+    background-color: #5bc0de;
+    padding: 30px 15px;
 }
 
 .masthead-brand {
@@ -87,7 +93,7 @@ a:hover {
  * Cover
  */
 .cover {
-    padding: 0 1.5rem;
+    padding: 5rem 1.5rem;
 }
 .cover .btn-lg {
     padding: .75rem 1.25rem;

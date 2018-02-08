@@ -31,10 +31,6 @@ import * as post from './post/index.js';
 let datamap = new init.Datamap();
 
 function WatchApplication() {
-    // $(window).on('resize', function() {
-    //     map.resize();
-    // });
-
     // Watch Navbar buttons
     $('ul.navbar-nav').on('click', '.nav-link', event => {
         init.watchNavBtns(event);
