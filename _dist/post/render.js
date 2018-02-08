@@ -20,7 +20,7 @@ export function PostResults(render) {
                 <div class="content">
                     <div class="header"><h3>${title}</h3></div>
                     <div class="caption">${caption}</div>
-                    <div class="date">${post.created_at}</div>
+                    <div class="date"><em>${post.created_at}</em></div>
                 </div>
             </a>
         </div>
