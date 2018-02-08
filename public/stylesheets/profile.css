@@ -16,21 +16,21 @@
     display: inline-block;
     font-family: Muli,Helvetica Neue,Arial,Helvetica,sans-serif;
     font-weight: 700;
-    color: rgba(0,0,0,.85);
+    color: rgba(255, 255, 255, 0.85);
 }
 
 #Name {
     margin: .25em 0 0 1rem;
     font-size: 1em;
     line-height: 1em;
-    color: rgba(0,0,0,.6);
+    color: rgba(255, 255, 255, 0.85);
 }
 
 #Bio {
     margin: .6em 0 0 1rem;
     font-size: 1em;
     line-height: 1.4285em;
-    color: rgba(0,0,0,.87);
+    color: rgba(255, 255, 255, 0.85);
 }
 
 #Email {
@@ -42,7 +42,7 @@
     padding: 0;
     top: 0;
     left: 0;
-    color: rgba(0,0,0,.4);
+    color: #91B6CF;
     box-shadow: none;
     transition: color .3s ease;
     border-top: none;
