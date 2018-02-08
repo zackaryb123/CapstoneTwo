@@ -866,7 +866,7 @@ function PostResults(render) {
                 <div class="content">
                     <div class="header"><h3>${title}</h3></div>
                     <div class="caption">${caption}</div>
-                    <div class="date">${post.created_at}</div>
+                    <div class="date"><em>${post.created_at}</em></div>
                 </div>
             </a>
         </div>
@@ -917,8 +917,6 @@ function OnPostClick(event) {
 
     let title = $(event.currentTarget).find('.header').text();
     let caption = $(event.currentTarget).find('.caption').text();
-    //let longitude = $(event.currentTarget).find('.longitude').text();
-    //let latitude = $(event.currentTarget).find('.latitude').text();
     let date = $(event.currentTarget).find('.date').text();
     let public_id = $(event.currentTarget).attr('id');
 
@@ -926,8 +924,6 @@ function OnPostClick(event) {
     $('#Post-Card img').attr('src', img_url);
     $('#header').text(title);
     $('#caption').text(caption);
-    //$('#longitude').text(longitude);
-    //$('#latitude').text(latitude);
     $('#date').text(date);
 }
 
