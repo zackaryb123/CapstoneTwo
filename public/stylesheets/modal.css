@@ -1,5 +1,9 @@
 @import url(https://fonts.googleapis.com/css?family=Roboto);
 
+.login-join {
+  padding-bottom: 20px;
+}
+
 .login-join.modal-content,
 .upload.modal-content {
   padding-left: 1rem;
