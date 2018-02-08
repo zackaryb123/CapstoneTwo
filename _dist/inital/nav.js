@@ -9,7 +9,7 @@ export function watchNavBtns(event) {
                 $(event.currentTarget).parent().addClass('active');
                 $('#worldMapView').attr('hidden', true);
                 $('#profileView').attr('hidden', false);
-                $('#Jumbo-Text').text('Profile');
+                $('#Jumbo-Header').text('Profile');
             }
             break;
         case 'globeBtn':
@@ -20,7 +20,7 @@ export function watchNavBtns(event) {
                 $(event.currentTarget).parent().addClass('active');
                 $('#profileView').attr('hidden', true);
                 $('#worldMapView').attr('hidden', false);
-                $('#Jumbo-Text').text('Locate Your Pictures on the Map');
+                $('#Jumbo-Header').text('Locate Your Pictures on the Map');
             }
             break;
     }
