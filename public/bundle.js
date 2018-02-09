@@ -325,14 +325,14 @@ function Datamap() {
         scope: 'world',
         element: this.container.get(0),
         projection: 'mercator',
-        done: this._handleMapReady.bind(this),
-        fills: {
-            defaultFill: '#4CAF50',
-            'bubble': 'red'
-        },
-        data: {
-            'bubble': {fillKey: 'bubble'}
-        }
+        done: this._handleMapReady.bind(this)
+        // fills: {
+        //     defaultFill: '#4CAF50',
+        //     'bubble': 'red'
+        // },
+        // data: {
+        //     'bubble': {fillKey: 'bubble'}
+        // }
     });
 }
 
