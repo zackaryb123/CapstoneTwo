@@ -8,7 +8,7 @@ function Datamap() {
         projection: 'mercator',
         done: this._handleMapReady.bind(this),
         fills: {
-            bubble: '#FF0000',
+            'bubble': '#FF0000',
             defaultFill: '#4CAF50'
         }
     });

@@ -9,7 +9,7 @@ const PostSchema = mongoose.Schema({
     longitude: {type: Number, default: null},
     latitude: {type: Number, default: null},
     radius: {type: Number, default: 10},
-    bubble: {type: String, default: 'bubble'},
+    fillKey: {type: String, default: 'bubble'},
     signature: {type: String},
     width: {type: Number},
     height: {type: String},
@@ -29,7 +29,7 @@ PostSchema.methods.apiRepr = function() {
         longitude: this.longitude || null,
         latitude: this.latitude || null,
         radius: this.radius || 10,
-        fillKey: this.fillKey || '#343A40',
+        fillKey: this.fillKey || 'bubble',
         created_at: this.created_at,
         url: this.url, 
         secure_url: this.secure_url
