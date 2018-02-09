@@ -9,7 +9,7 @@ const PostSchema = mongoose.Schema({
     longitude: {type: Number, default: null},
     latitude: {type: Number, default: null},
     radius: {type: Number, default: 10},
-    fillKey: {type: String},
+    bubble: {type: String, default: 'bubble'},
     signature: {type: String},
     width: {type: Number},
     height: {type: String},
