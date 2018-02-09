@@ -327,11 +327,8 @@ function Datamap() {
         projection: 'mercator',
         done: this._handleMapReady.bind(this),
         fills: {
-            defaultFill: '#4CAF50',
-            'bubble': '#FF0000'
-        },
-        data: {
-            'bubble': {fillKey: 'bubble'}
+            bubble: '#FF0000',
+            defaultFill: '#4CAF50'
         }
     });
 }
