@@ -4,8 +4,8 @@ mongoose.Promise = global.Promise;
 const PostSchema = mongoose.Schema({
     public_id: {type: String, required: true},
     username: {type: String, required: true},
-    title: {type: String},
-    caption: {type: String},
+    title: {type: String, default: 'Title'},
+    caption: {type: String, default: 'Caption'},
     longitude: {type: Number, default: null},
     latitude: {type: Number, default: null},
     radius: {type: Number, default: 5},
@@ -34,7 +34,7 @@ PostSchema.methods.apiRepr = function() {
         url: this.url, 
         secure_url: this.secure_url
     };
-}
+};
 
 const Post = mongoose.model('Post', PostSchema);
 module.exports = {Post};

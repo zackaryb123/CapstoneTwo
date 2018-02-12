@@ -46,9 +46,6 @@ router.post('/protected/uploads', [jwtAuth, upload.single('image')], (req, res) 
         {tags: [req.body.title, req.body.caption, req.body.username,
             req.body.longitude, req.body.latitude]}
     ).then(function(res) {
-        console.log(res.tags);
-        console.log(res);
-
         return Post
         .create({
             public_id: res.public_id,
