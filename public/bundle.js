@@ -230,6 +230,12 @@ function WatchApplication() {
         let JWT = JSON.parse(localStorage.getItem('JWT')).token;
         let username = JSON.parse(localStorage.getItem('currentUser')).username;
 
+        let title = $(event.currentTarget).find('input[name=title]').val();
+        let caption =  $(event.currentTarget).find("input[name=caption]").val();
+
+        console.log(title);
+        console.log(caption);
+
         let formData = new FormData($('#Upload-Form')[0]);
         formData.set('longitude', longitude);
         formData.set('latitude', latitude);
@@ -890,7 +896,10 @@ function getUploadFormData(event) {
     let title = $(event.currentTarget).find("input[name=title]").val();
     let caption =  $(event.currentTarget).find("input[name=caption]").val();
 
-    if (title === null){
+    console.log(title);
+    console.log(caption);
+
+    if (title === ''){
         title = " ";
     }
 
