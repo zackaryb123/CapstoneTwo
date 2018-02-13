@@ -3,21 +3,10 @@ export function getUploadFormData(event) {
     let title = $(event.currentTarget).find("input[name=title]").val();
     let caption =  $(event.currentTarget).find("input[name=caption]").val();
 
-    console.log(title);
-    console.log(caption);
-
-    if (title === ''){
-        title = " ";
-    }
-
-    if (caption == null) {
-        caption = " ";
-    }
-
     return {
         username: currentUser,
-        title: title,
-        caption: caption,
+        title: title === "" ? "Title" : title,
+        caption: caption === "" ? "Caption" : caption,
         img: $(event.currentTarget).find("input[name=image]").val() 
     }
 

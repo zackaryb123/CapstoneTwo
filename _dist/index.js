@@ -156,17 +156,8 @@ function WatchApplication() {
         formData.set('latitude', latitude);
         formData.set('username', username);
 
-        if (title === ''){
-            formData.set('title', " ");
-        }
-
-        if (caption === '') {
-            formData.set('caption', " ");
-        }
-
-        console.log(formData);
-        console.log(formData.caption);
-        console.log(formData.title);
+        title === "" ? formData.set('title', 'Title') : formData.set('title', title);
+        caption === "" ? formData.set('caption', 'Caption') : formData.set('caption', caption);
 
         ajax.postAuthFile(`${prefix}${POST_POST_URL}`, JWT, formData,
             (success) => {

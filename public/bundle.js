@@ -238,17 +238,8 @@ function WatchApplication() {
         formData.set('latitude', latitude);
         formData.set('username', username);
 
-        if (title === ''){
-            formData.set('title', " ");
-        }
-
-        if (caption === '') {
-            formData.set('caption', " ");
-        }
-
-        console.log(formData);
-        console.log(formData.caption);
-        console.log(formData.title);
+        title === "" ? formData.set('title', 'Title') : formData.set('title', title);
+        caption === "" ? formData.set('caption', 'Caption') : formData.set('caption', caption);
 
         __WEBPACK_IMPORTED_MODULE_1__ajax_js__["e" /* postAuthFile */](`${prefix}${POST_POST_URL}`, JWT, formData,
             (success) => {
@@ -905,21 +896,10 @@ function getUploadFormData(event) {
     let title = $(event.currentTarget).find("input[name=title]").val();
     let caption =  $(event.currentTarget).find("input[name=caption]").val();
 
-    console.log(title);
-    console.log(caption);
-
-    if (title === ''){
-        title = " ";
-    }
-
-    if (caption == null) {
-        caption = " ";
-    }
-
     return {
         username: currentUser,
-        title: title,
-        caption: caption,
+        title: title === "" ? "Title" : title,
+        caption: caption === "" ? "Caption" : caption,
         img: $(event.currentTarget).find("input[name=image]").val() 
     }
 
