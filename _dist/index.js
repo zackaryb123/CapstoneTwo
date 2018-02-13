@@ -151,13 +151,22 @@ function WatchApplication() {
         let title = $(event.currentTarget).find('input[name=title]').val();
         let caption =  $(event.currentTarget).find("input[name=caption]").val();
 
-        console.log(title);
-        console.log(caption);
-
         let formData = new FormData($('#Upload-Form')[0]);
         formData.set('longitude', longitude);
         formData.set('latitude', latitude);
         formData.set('username', username);
+
+        if (title === ''){
+            formData.set('title', " ");
+        }
+
+        if (caption === '') {
+            formData.set('caption', " ");
+        }
+
+        console.log(formData);
+        console.log(formData.caption);
+        console.log(formData.title);
 
         ajax.postAuthFile(`${prefix}${POST_POST_URL}`, JWT, formData,
             (success) => {
